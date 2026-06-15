@@ -119,22 +119,23 @@ export const alerts = {
  */
 async function showWindowsNotification(alert: Alert) {
     try {
-        // @ts-ignore - Tauri API
-        if (window.__TAURI__?.notification) {
-            const { sendNotification, isPermissionGranted, requestPermission } = await import('@tauri-apps/api/notification');
-            
-            let permitted = await isPermissionGranted();
-            if (!permitted) {
-                const permission = await requestPermission();
-                permitted = permission === 'granted';
-            }
-            
-            if (permitted) {
-                await sendNotification({
-                    title: `NetBoozt: ${alert.title}`,
-                    body: alert.message
-                });
-            }
+        if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+            return;
+        }
+
+        const { sendNotification, isPermissionGranted, requestPermission } = await import('@tauri-apps/plugin-notification');
+        
+        let permitted = await isPermissionGranted();
+        if (!permitted) {
+            const permission = await requestPermission();
+            permitted = permission === 'granted';
+        }
+        
+        if (permitted) {
+            await sendNotification({
+                title: `NetBoozt: ${alert.title}`,
+                body: alert.message
+            });
         }
     } catch (e) {
         // Silenciosamente fallar si no está disponible

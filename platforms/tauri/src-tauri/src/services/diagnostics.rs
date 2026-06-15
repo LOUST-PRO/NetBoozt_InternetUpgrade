@@ -85,7 +85,7 @@ pub fn quick_check() -> QuickCheckResult {
             } else {
                 format!("Conexión lenta ({:.0}ms)", latency)
             };
-            
+
             QuickCheckResult {
                 connected: true,
                 latency_ms: latency,
@@ -124,7 +124,8 @@ pub fn run_full_diagnostic() -> DiagnosticResult {
             result.adapter_name = adapter;
         }
         None => {
-            result.recommendation = "No hay adaptador de red activo. Verifica tu conexión física.".to_string();
+            result.recommendation =
+                "No hay adaptador de red activo. Verifica tu conexión física.".to_string();
             return result;
         }
     }
@@ -139,7 +140,8 @@ pub fn run_full_diagnostic() -> DiagnosticResult {
                     result.router_latency_ms = latency;
                     result.failure_point = FailurePoint::Isp;
                 } else {
-                    result.recommendation = "No se puede alcanzar el router. Verifica tu conexión local.".to_string();
+                    result.recommendation =
+                        "No se puede alcanzar el router. Verifica tu conexión local.".to_string();
                     return result;
                 }
             } else {
@@ -148,7 +150,8 @@ pub fn run_full_diagnostic() -> DiagnosticResult {
             }
         }
         None => {
-            result.recommendation = "No se detectó gateway. Verifica la configuración de red.".to_string();
+            result.recommendation =
+                "No se detectó gateway. Verifica la configuración de red.".to_string();
             return result;
         }
     }
@@ -165,7 +168,8 @@ pub fn run_full_diagnostic() -> DiagnosticResult {
             return result;
         }
     } else {
-        result.recommendation = "Sin respuesta del ISP. Verifica si hay problemas con tu proveedor.".to_string();
+        result.recommendation =
+            "Sin respuesta del ISP. Verifica si hay problemas con tu proveedor.".to_string();
         return result;
     }
 
@@ -177,16 +181,20 @@ pub fn run_full_diagnostic() -> DiagnosticResult {
             result.dns_latency_ms = latency;
             result.failure_point = FailurePoint::None;
         } else {
-            result.recommendation = "DNS no funciona correctamente. Considera cambiar a Cloudflare (1.1.1.1).".to_string();
+            result.recommendation =
+                "DNS no funciona correctamente. Considera cambiar a Cloudflare (1.1.1.1)."
+                    .to_string();
             return result;
         }
     } else {
-        result.recommendation = "Error de resolución DNS. Prueba limpiar caché DNS o cambiar servidor.".to_string();
+        result.recommendation =
+            "Error de resolución DNS. Prueba limpiar caché DNS o cambiar servidor.".to_string();
         return result;
     }
 
     // Calcular salud general
-    let max_latency = result.router_latency_ms
+    let max_latency = result
+        .router_latency_ms
         .max(result.isp_latency_ms)
         .max(result.dns_latency_ms);
 
@@ -206,8 +214,12 @@ pub fn run_full_diagnostic() -> DiagnosticResult {
         NetworkHealth::Excellent => "Tu conexión está funcionando perfectamente. 🚀".to_string(),
         NetworkHealth::Good => "Tu conexión está bien. No se requieren cambios.".to_string(),
         NetworkHealth::Fair => "Conexión aceptable. Considera optimizar tu DNS.".to_string(),
-        NetworkHealth::Poor => "Conexión lenta. Prueba cambiar DNS y aplicar optimizaciones.".to_string(),
-        NetworkHealth::Bad => "Conexión muy lenta. Verifica tu ISP o aplica perfil agresivo.".to_string(),
+        NetworkHealth::Poor => {
+            "Conexión lenta. Prueba cambiar DNS y aplicar optimizaciones.".to_string()
+        }
+        NetworkHealth::Bad => {
+            "Conexión muy lenta. Verifica tu ISP o aplica perfil agresivo.".to_string()
+        }
         NetworkHealth::Down => "Sin conexión.".to_string(),
     };
 
@@ -237,7 +249,7 @@ fn get_gateway() -> Option<String> {
 /// Ping a un host y retornar latencia en ms
 fn ping_host(host: &str) -> Option<f64> {
     let _start = Instant::now();
-    
+
     let ps_script = format!(
         r#"
         $ping = Test-Connection -ComputerName {} -Count 1 -ErrorAction SilentlyContinue
@@ -255,7 +267,7 @@ fn ping_host(host: &str) -> Option<f64> {
 /// Verificar resolución DNS
 fn check_dns_resolution() -> Option<f64> {
     let start = Instant::now();
-    
+
     let ps_script = r#"
         try {
             $result = Resolve-DnsName -Name "google.com" -DnsOnly -ErrorAction Stop
@@ -266,9 +278,7 @@ fn check_dns_resolution() -> Option<f64> {
     "#;
 
     match run_powershell(ps_script) {
-        Ok(result) if result.trim() == "OK" => {
-            Some(start.elapsed().as_millis() as f64)
-        }
+        Ok(result) if result.trim() == "OK" => Some(start.elapsed().as_millis() as f64),
         _ => None,
     }
 }

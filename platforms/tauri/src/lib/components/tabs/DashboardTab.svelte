@@ -39,6 +39,7 @@
     
     // Detectar si estamos en Tauri o web
     let isTauri = false;
+    let platform: 'windows' | 'linux' | 'other' = 'other';
     
     // Datos históricos para gráficas en tiempo real (últimos 30 segundos)
     let downloadHistory: number[] = [];
@@ -211,9 +212,20 @@
     // Categorizar para mostrar
     const basicKeys = ['rss', 'rsc', 'autotuning', 'ecn', 'timestamps', 'congestion_provider'];
     const advancedKeys = ['fast_open', 'hystart', 'prr', 'pacing', 'initial_rto', 'rack'];
+
+    $: deviceManagerTitle = platform === 'windows'
+        ? 'Abrir Administrador de Dispositivos de Windows'
+        : 'Abrir ajustes del sistema';
+    $: deviceManagerLabel = platform === 'windows' ? 'Abrir en Windows' : 'Abrir ajustes';
     
     onMount(async () => {
         isTauri = isTauriAvailable();
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('windows')) {
+            platform = 'windows';
+        } else if (ua.includes('linux')) {
+            platform = 'linux';
+        }
         await loadProtocolInfo();
     });
     
@@ -479,24 +491,32 @@
         handleDiagnosticComplete(result);
     }
     
-    // Abrir el Administrador de Dispositivos de Windows
+    // Abrir ajustes del sistema o el administrador equivalente
     async function openDeviceManager() {
         try {
             if (isTauriAvailable()) {
-                // Usar comando de Tauri para abrir devmgmt.msc
                 await invoke('open_device_manager');
+                dispatch('showNotification', {
+                    type: 'info',
+                    message: platform === 'windows'
+                        ? 'Administrador de Dispositivos abierto'
+                        : 'Ajustes del sistema abiertos'
+                });
             } else {
-                // En modo web, mostrar información
                 dispatch('showNotification', { 
                     type: 'info', 
-                    message: '💻 En modo escritorio, esto abrirá el Administrador de Dispositivos de Windows (devmgmt.msc)' 
+                    message: platform === 'windows'
+                        ? '💻 En modo escritorio, esto abrirá el Administrador de Dispositivos de Windows (devmgmt.msc)'
+                        : '💻 En modo escritorio, esto abrirá los ajustes del sistema de Linux'
                 });
             }
         } catch (e) {
             console.error('Error abriendo Device Manager:', e);
             dispatch('showNotification', { 
                 type: 'warning', 
-                message: 'No se pudo abrir el Administrador de Dispositivos. Ejecuta "devmgmt.msc" manualmente.' 
+                message: platform === 'windows'
+                    ? 'No se pudo abrir el Administrador de Dispositivos. Ejecuta "devmgmt.msc" manualmente.'
+                    : 'No se pudieron abrir los ajustes del sistema. Abre tu centro de control manualmente.'
             });
         }
     }
@@ -784,10 +804,10 @@
             <button 
                 class="icon-btn-device" 
                 on:click={openDeviceManager}
-                title="Abrir Administrador de Dispositivos de Windows"
+                title={deviceManagerTitle}
             >
                 <Icon name="external-link" size={12} />
-                <span>Abrir en Windows</span>
+                <span>{deviceManagerLabel}</span>
             </button>
         </div>
         {#if loading}

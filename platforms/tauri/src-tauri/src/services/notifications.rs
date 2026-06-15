@@ -5,11 +5,12 @@
 //! By LOUST (www.loust.pro)
 
 use tauri::AppHandle;
+use tauri_plugin_notification::NotificationExt;
 
 /// Mostrar notificación del sistema
 pub fn show_notification(app: &AppHandle, title: &str, body: &str) -> Result<(), String> {
-    // Usar la API de notificaciones de Tauri
-    tauri::api::notification::Notification::new(&app.config().tauri.bundle.identifier)
+    app.notification()
+        .builder()
         .title(title)
         .body(body)
         .show()
@@ -31,18 +32,17 @@ pub fn notify_failover(app: &AppHandle, from_tier: u8, to_tier: u8) -> Result<()
     show_notification(
         app,
         "NetBoozt - Auto-Failover",
-        &format!("DNS cambiado de Tier {} a Tier {} automáticamente", from_tier, to_tier),
+        &format!(
+            "DNS cambiado de Tier {} a Tier {} automáticamente",
+            from_tier, to_tier
+        ),
     )
 }
 
 /// Notificación de error de conexión
 #[allow(dead_code)]
 pub fn notify_connection_error(app: &AppHandle, message: &str) -> Result<(), String> {
-    show_notification(
-        app,
-        "NetBoozt - Error de Conexión",
-        message,
-    )
+    show_notification(app, "NetBoozt - Error de Conexión", message)
 }
 
 /// Notificación de diagnóstico completado
@@ -55,7 +55,11 @@ pub fn notify_diagnostic_complete(app: &AppHandle, health: &str) -> Result<(), S
 }
 
 /// Notificación de optimización aplicada
-pub fn notify_optimization_applied(app: &AppHandle, profile: &str, count: usize) -> Result<(), String> {
+pub fn notify_optimization_applied(
+    app: &AppHandle,
+    profile: &str,
+    count: usize,
+) -> Result<(), String> {
     show_notification(
         app,
         "NetBoozt - Optimización Aplicada",

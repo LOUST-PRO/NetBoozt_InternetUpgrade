@@ -1,13 +1,15 @@
 //! Monitoring Commands
-//! 
+//!
 //! Comandos para monitoreo en tiempo real de la red.
 //!
 //! By LOUST (www.loust.pro)
 
 use serde::{Deserialize, Serialize};
+use std::fs;
+use std::process::Command;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
-use tauri::{AppHandle, Manager};
+use tauri::{AppHandle, Emitter};
 
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
@@ -76,14 +78,15 @@ pub async fn start_monitoring(
             let metrics = match get_adapter_metrics(&adapter) {
                 Ok((bytes_recv, bytes_sent, packets_recv, packets_sent, errors, drops)) => {
                     let interval_secs = interval.as_secs_f64();
-                    
+
                     // Calcular tasas
                     let download_bytes = bytes_recv.saturating_sub(prev_bytes_recv);
                     let upload_bytes = bytes_sent.saturating_sub(prev_bytes_sent);
                     let pkts_recv_delta = packets_recv.saturating_sub(prev_packets_recv);
                     let pkts_sent_delta = packets_sent.saturating_sub(prev_packets_sent);
 
-                    let download_mbps = (download_bytes as f64 * 8.0) / (interval_secs * 1_000_000.0);
+                    let download_mbps =
+                        (download_bytes as f64 * 8.0) / (interval_secs * 1_000_000.0);
                     let upload_mbps = (upload_bytes as f64 * 8.0) / (interval_secs * 1_000_000.0);
 
                     prev_bytes_recv = bytes_recv;
@@ -111,7 +114,7 @@ pub async fn start_monitoring(
             };
 
             // Emitir evento al frontend
-            let _ = app.emit_all("metrics_update", &metrics);
+            let _ = app.emit("metrics_update", &metrics);
 
             std::thread::sleep(interval);
         }
@@ -153,8 +156,30 @@ pub async fn get_current_metrics(adapter: String) -> Result<NetworkMetrics, Stri
 fn get_adapter_metrics(
     adapter: &str,
 ) -> Result<(u64, u64, u64, u64, (u64, u64), (u64, u64)), Box<dyn std::error::Error>> {
-    let ps_script = format!(
-        r#"
+    #[cfg(not(windows))]
+    {
+        let read_stat = |name: &str| -> Result<u64, Box<dyn std::error::Error>> {
+            let value = fs::read_to_string(format!(
+                "/sys/class/net/{}/statistics/{}",
+                adapter, name
+            ))?;
+            Ok(value.trim().parse().unwrap_or(0))
+        };
+
+        return Ok((
+            read_stat("rx_bytes")?,
+            read_stat("tx_bytes")?,
+            read_stat("rx_packets")?,
+            read_stat("tx_packets")?,
+            (read_stat("rx_errors")?, read_stat("tx_errors")?),
+            (read_stat("rx_dropped")?, read_stat("tx_dropped")?),
+        ));
+    }
+
+    #[cfg(windows)]
+    {
+        let ps_script = format!(
+            r#"
         $stats = Get-NetAdapterStatistics -Name "{}" -ErrorAction SilentlyContinue
         if ($stats) {{
             "$($stats.ReceivedBytes)|$($stats.SentBytes)|$($stats.ReceivedUnicastPackets)|$($stats.SentUnicastPackets)|$($stats.InErrors)|$($stats.OutErrors)|$($stats.InDiscards)|$($stats.OutDiscards)"
@@ -162,46 +187,69 @@ fn get_adapter_metrics(
             "0|0|0|0|0|0|0|0"
         }}
         "#,
-        adapter
-    );
+            adapter
+        );
 
-    #[cfg(windows)]
-    let output = std::process::Command::new("powershell")
-        .args(["-NoProfile", "-Command", &ps_script])
-        .creation_flags(CREATE_NO_WINDOW)
-        .output()?;
+        let output = std::process::Command::new("powershell")
+            .args(["-NoProfile", "-Command", &ps_script])
+            .creation_flags(CREATE_NO_WINDOW)
+            .output()?;
 
-    #[cfg(not(windows))]
-    let output = std::process::Command::new("powershell")
-        .args(["-NoProfile", "-Command", &ps_script])
-        .output()?;
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let parts: Vec<&str> = stdout.trim().split('|').collect();
 
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let parts: Vec<&str> = stdout.trim().split('|').collect();
-
-    if parts.len() >= 8 {
-        Ok((
-            parts[0].parse().unwrap_or(0),
-            parts[1].parse().unwrap_or(0),
-            parts[2].parse().unwrap_or(0),
-            parts[3].parse().unwrap_or(0),
-            (
-                parts[4].parse().unwrap_or(0),
-                parts[5].parse().unwrap_or(0),
-            ),
-            (
-                parts[6].parse().unwrap_or(0),
-                parts[7].parse().unwrap_or(0),
-            ),
-        ))
-    } else {
-        Ok((0, 0, 0, 0, (0, 0), (0, 0)))
+        if parts.len() >= 8 {
+            Ok((
+                parts[0].parse().unwrap_or(0),
+                parts[1].parse().unwrap_or(0),
+                parts[2].parse().unwrap_or(0),
+                parts[3].parse().unwrap_or(0),
+                (parts[4].parse().unwrap_or(0), parts[5].parse().unwrap_or(0)),
+                (parts[6].parse().unwrap_or(0), parts[7].parse().unwrap_or(0)),
+            ))
+        } else {
+            Ok((0, 0, 0, 0, (0, 0), (0, 0)))
+        }
     }
 }
 
 /// Medir latencia al gateway
 fn measure_latency() -> Result<f64, Box<dyn std::error::Error>> {
-    let ps_script = r#"
+    #[cfg(not(windows))]
+    {
+        let route_output = Command::new("ip").args(["route", "show", "default"]).output()?;
+        let routes = String::from_utf8_lossy(&route_output.stdout);
+        let gateway = routes
+            .lines()
+            .find_map(|line| {
+                let parts: Vec<&str> = line.split_whitespace().collect();
+                parts
+                    .windows(2)
+                    .find(|window| window[0] == "via")
+                    .map(|window| window[1].to_string())
+            })
+            .ok_or_else(|| {
+                std::io::Error::new(std::io::ErrorKind::NotFound, "No default gateway found")
+            })?;
+
+        let ping_output = Command::new("ping")
+            .args(["-n", "-c", "1", "-W", "1", &gateway])
+            .output()?;
+
+        let stdout = String::from_utf8_lossy(&ping_output.stdout);
+        let latency = stdout
+            .lines()
+            .find_map(|line| line.split("time=").nth(1))
+            .and_then(|value| value.split_whitespace().next())
+            .and_then(|value| value.parse::<f64>().ok())
+            .unwrap_or(0.0);
+
+        return Ok(latency);
+    }
+
+    #[cfg(windows)]
+    {
+        let ps_script = r#"
         $gateway = (Get-NetRoute -DestinationPrefix '0.0.0.0/0' | Select-Object -First 1).NextHop
         if ($gateway) {
             $ping = Test-Connection -ComputerName $gateway -Count 1 -ErrorAction SilentlyContinue
@@ -209,17 +257,12 @@ fn measure_latency() -> Result<f64, Box<dyn std::error::Error>> {
         } else { 0 }
     "#;
 
-    #[cfg(windows)]
-    let output = std::process::Command::new("powershell")
-        .args(["-NoProfile", "-Command", ps_script])
-        .creation_flags(CREATE_NO_WINDOW)
-        .output()?;
+        let output = std::process::Command::new("powershell")
+            .args(["-NoProfile", "-Command", ps_script])
+            .creation_flags(CREATE_NO_WINDOW)
+            .output()?;
 
-    #[cfg(not(windows))]
-    let output = std::process::Command::new("powershell")
-        .args(["-NoProfile", "-Command", ps_script])
-        .output()?;
-
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    Ok(stdout.trim().parse().unwrap_or(0.0))
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        Ok(stdout.trim().parse().unwrap_or(0.0))
+    }
 }
