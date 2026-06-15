@@ -57,7 +57,7 @@
             "-NoProfile",
             "-Command",
             {
-              "validator": "(Set-DnsClientServerAddress|Clear-DnsClientCache|Test-Connection|Get-NetAdapter|Get-DnsClientServerAddress|Resolve-DnsName)(-.*)?"
+              "validator": "^(Set-DnsClientServerAddress|Clear-DnsClientCache|Test-Connection|Get-NetAdapter|Get-DnsClientServerAddress|Resolve-DnsName)(-.*)?$"
             }
           ],
           "cmd": "powershell",
@@ -73,8 +73,11 @@
     "dialog:allow-ask",
     "dialog:allow-confirm",
     "notification:default",
-    "fs:default",
-    "dialog:default",
-    "shell:default"
+    "shell:allow-open",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    "dialog:allow-message",
+    "dialog:allow-ask",
+    "dialog:allow-confirm"
   ]
 }
