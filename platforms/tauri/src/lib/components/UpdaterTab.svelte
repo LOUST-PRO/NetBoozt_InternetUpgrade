@@ -47,6 +47,7 @@
     let autoCheckEnabled = true;
     let currentVersion = '3.0.1';
     let copiedCommand = '';
+    let platform: 'windows' | 'linux' | 'other' = 'other';
     
     // Settings
     let checkInterval = 24; // horas
@@ -116,7 +117,64 @@ cd platforms/tauri && npm run tauri build
 - .github/instructions/*.md (Docs para AI)
 `;
 
+    function detectPlatform(): 'windows' | 'linux' | 'other' {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('windows')) return 'windows';
+        if (ua.includes('linux')) return 'linux';
+        return 'other';
+    }
+
+    function isWindowsAsset(name: string): boolean {
+        const lower = name.toLowerCase();
+        return lower.endsWith('.exe') || lower.endsWith('.msi');
+    }
+
+    function isLinuxAsset(name: string): boolean {
+        const lower = name.toLowerCase();
+        return lower.endsWith('.appimage') ||
+            lower.endsWith('.deb') ||
+            lower.endsWith('.rpm') ||
+            lower.endsWith('.tar.gz') ||
+            lower.endsWith('.tar.xz') ||
+            lower.endsWith('.zip');
+    }
+
+    function pickInstallerAsset(assets: Release['assets']) {
+        const predicates = platform === 'linux'
+            ? [
+                (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.appimage'),
+                (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.deb'),
+                (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.rpm'),
+                (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.tar.gz'),
+                (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.tar.xz'),
+                (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.zip')
+            ]
+            : platform === 'windows'
+                ? [
+                    (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.exe'),
+                    (asset: Release['assets'][number]) => asset.name.toLowerCase().endsWith('.msi')
+                ]
+                : [
+                    (asset: Release['assets'][number]) => isWindowsAsset(asset.name),
+                    (asset: Release['assets'][number]) => isLinuxAsset(asset.name)
+                ];
+
+        for (const predicate of predicates) {
+            const match = assets.find(predicate);
+            if (match) {
+                return match;
+            }
+        }
+
+        return null;
+    }
+
+    $: downloadButtonLabel = platform === 'linux' ? 'Descargar paquete Linux' : 'Descargar instalador';
+    $: installButtonLabel = platform === 'linux' ? 'Abrir paquete descargado' : 'Instalar ahora';
+
     onMount(async () => {
+        platform = detectPlatform();
+
         // Obtener versión actual desde Rust
         try {
             currentVersion = await invoke<string>('get_app_version');
@@ -218,10 +276,7 @@ cd platforms/tauri && npm run tauri build
         
         try {
             const assets = updateInfo.release.assets;
-            const installer = assets.find(a => 
-                a.name.includes('-setup.exe') || 
-                a.name.includes('.msi')
-            );
+            const installer = pickInstallerAsset(assets);
             
             if (installer) {
                 downloadProgress = 10;
@@ -234,8 +289,7 @@ cd platforms/tauri && npm run tauri build
                 downloadPath = result;
                 
             } else {
-                const downloadUrl = `${DOWNLOAD_BASE_URL}/tauri_v${updateInfo.latestVersion}`;
-                window.open(downloadUrl, '_blank');
+                openDownloadPage();
             }
             
         } catch (e: any) {
@@ -389,6 +443,8 @@ cd platforms/tauri && npm run tauri build
                                     <span class="asset-icon">
                                         {#if asset.name.includes('.exe')}🪟
                                         {:else if asset.name.includes('.msi')}📦
+                                        {:else if asset.name.toLowerCase().includes('.appimage')}🐧
+                                        {:else if asset.name.toLowerCase().includes('.deb') || asset.name.toLowerCase().includes('.rpm')}📦
                                         {:else if asset.name.includes('.zip')}🗜️
                                         {:else}📄{/if}
                                     </span>
@@ -407,10 +463,11 @@ cd platforms/tauri && npm run tauri build
                 <div class="update-actions">
                     <button 
                         class="btn btn-primary btn-lg"
-                        on:click={openDownloadPage}
+                        on:click={downloadUpdate}
+                        disabled={downloading}
                     >
                         <Icon name="download" size={18} />
-                        Descargar desde LOUST
+                        {downloadButtonLabel}
                     </button>
                     
                     <button 
@@ -438,7 +495,7 @@ cd platforms/tauri && npm run tauri build
                         <Icon name="check" size={20} />
                         <span>Descargado: {downloadPath}</span>
                         <button class="btn btn-primary" on:click={installUpdate}>
-                            Instalar ahora
+                            {installButtonLabel}
                         </button>
                     </div>
                 {/if}

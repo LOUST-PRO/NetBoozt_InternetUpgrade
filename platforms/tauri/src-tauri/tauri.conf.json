@@ -2,87 +2,31 @@
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../build"
+    "frontendDist": "../build",
+    "devUrl": "http://localhost:1420"
   },
-  "package": {
-    "productName": "NetBoozt",
-    "version": "3.0.2"
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "icon": ["icons/icon.ico"],
+    "resources": [],
+    "externalBin": [],
+    "copyright": "© 2025 LOUST",
+    "category": "Utility",
+    "shortDescription": "Network Optimization Tool",
+    "longDescription": "NetBoozt brings network optimization and DNS tooling to desktop systems"
   },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "dialog": {
-        "all": true,
-        "ask": true,
-        "confirm": true,
-        "message": true,
-        "open": false,
-        "save": false
-      },
-      "shell": {
-        "all": false,
-        "open": true,
-        "execute": true,
-        "sidecar": false,
-        "scope": [
-          {
-            "name": "powershell",
-            "cmd": "powershell",
-            "args": ["-NoProfile", "-Command", { "validator": "\\S+" }]
-          }
-        ]
-      },
-      "notification": {
-        "all": true
-      },
-      "window": {
-        "all": true
-      },
-      "path": {
-        "all": true
-      },
-      "fs": {
-        "all": false,
-        "readFile": true,
-        "writeFile": true,
-        "scope": ["$APPDATA/netboozt/**", "$HOME/.netboozt/**"]
-      }
-    },
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "pro.loust.netboozt",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "resources": [],
-      "externalBin": [],
-      "copyright": "© 2025 LOUST",
-      "category": "Utility",
-      "shortDescription": "Network Optimization Tool",
-      "longDescription": "NetBoozt brings BBR-like network optimization to Windows",
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
-      }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": false
-    },
-    "systemTray": {
-      "iconPath": "icons/icon.ico",
-      "iconAsTemplate": true,
-      "menuOnLeftClick": false
-    },
+  "productName": "NetBoozt",
+  "mainBinaryName": "NetBoozt",
+  "version": "3.0.2",
+  "identifier": "pro.loust.netboozt",
+  "plugins": {},
+  "app": {
     "windows": [
       {
         "fullscreen": false,
@@ -94,8 +38,12 @@
         "minHeight": 600,
         "center": true,
         "decorations": true,
-        "transparent": false
+        "transparent": false,
+        "useHttpsScheme": true
       }
-    ]
+    ],
+    "security": {
+      "csp": null
+    }
   }
 }

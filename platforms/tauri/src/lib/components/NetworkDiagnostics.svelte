@@ -44,6 +44,7 @@
     let results: Record<string, PhaseResult> = {};
     let finalScore: number | null = null;
     let healthStatus: string = '';
+    let platform: 'windows' | 'linux' | 'other' = 'other';
     
     // Referencias a componentes
     let phaseAdapter: PhaseAdapter;
@@ -51,6 +52,22 @@
     let phaseISP: PhaseISP;
     let phaseDNS: PhaseDNS;
     let phaseSpeed: PhaseSpeed;
+
+    onMount(() => {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('windows')) {
+            platform = 'windows';
+        } else if (ua.includes('linux')) {
+            platform = 'linux';
+        }
+    });
+
+    $: toolsTitle = platform === 'windows' ? 'Herramientas de Windows' : 'Herramientas del sistema';
+    $: troubleshooterLabel = platform === 'windows' ? 'Troubleshooter' : 'Asistente de red';
+    $: networkLabel = platform === 'windows' ? 'Conexiones' : 'Red';
+    $: deviceLabel = platform === 'windows' ? 'Dispositivos' : 'Ajustes';
+    $: summaryLabel = platform === 'windows' ? 'ipconfig /all' : 'Resumen IP';
+    $: terminalLabel = platform === 'windows' ? 'CMD' : 'Terminal';
     
     async function runDiagnostics() {
         if (isRunning) return;
@@ -151,24 +168,23 @@
         return '#ff4444';
     }
     
-    async function openWindowsTool(tool: string) {
+    async function openSystemTool(tool: string) {
         try {
             switch (tool) {
                 case 'troubleshooter':
-                    await invoke('run_windows_network_troubleshooter');
-                    dispatch('toast', { type: 'info', message: 'Solucionador iniciado' });
+                    dispatch('toast', { type: 'info', message: await invoke<string>('run_windows_network_troubleshooter') });
                     break;
-                case 'ncpa':
-                    await invoke('open_system_tool', { tool: 'ncpa.cpl' });
+                case 'network':
+                    dispatch('toast', { type: 'info', message: await invoke<string>('open_system_tool', { tool: 'network_connections' }) });
                     break;
-                case 'devmgmt':
-                    await invoke('open_system_tool', { tool: 'devmgmt.msc' });
+                case 'device':
+                    dispatch('toast', { type: 'info', message: await invoke<string>('open_system_tool', { tool: 'device_settings' }) });
                     break;
-                case 'cmd':
-                    await invoke('open_system_tool', { tool: 'cmd' });
+                case 'terminal':
+                    dispatch('toast', { type: 'info', message: await invoke<string>('open_system_tool', { tool: 'terminal' }) });
                     break;
-                case 'ipconfig':
-                    await invoke('open_system_tool', { tool: 'cmd /k ipconfig /all' });
+                case 'network_snapshot':
+                    dispatch('toast', { type: 'info', message: await invoke<string>('open_system_tool', { tool: 'network_snapshot' }) });
                     break;
             }
         } catch (e) {
@@ -282,37 +298,37 @@
     <div class="tools-section">
         <span class="tools-title">
             <Icon name="settings" size={14} />
-            Herramientas de Windows
+            {toolsTitle}
         </span>
         <div class="tools-grid">
-            <Tooltip text="Solucionador de problemas de red">
-                <button class="tool-btn" on:click={() => openWindowsTool('troubleshooter')}>
+            <Tooltip text={platform === 'windows' ? 'Solucionador de problemas de red' : 'Abrir la herramienta de ayuda o ajustes de red del sistema'}>
+                <button class="tool-btn" on:click={() => openSystemTool('troubleshooter')}>
                     <Icon name="settings" size={14} />
-                    Troubleshooter
+                    {troubleshooterLabel}
                 </button>
             </Tooltip>
-            <Tooltip text="Panel de conexiones de red">
-                <button class="tool-btn" on:click={() => openWindowsTool('ncpa')}>
+            <Tooltip text={platform === 'windows' ? 'Panel de conexiones de red' : 'Abrir conexiones o ajustes de red'}>
+                <button class="tool-btn" on:click={() => openSystemTool('network')}>
                     <Icon name="wifi" size={14} />
-                    Conexiones
+                    {networkLabel}
                 </button>
             </Tooltip>
-            <Tooltip text="Administrador de dispositivos">
-                <button class="tool-btn" on:click={() => openWindowsTool('devmgmt')}>
+            <Tooltip text={platform === 'windows' ? 'Administrador de dispositivos' : 'Abrir ajustes del sistema'}>
+                <button class="tool-btn" on:click={() => openSystemTool('device')}>
                     <Icon name="cpu" size={14} />
-                    Dispositivos
+                    {deviceLabel}
                 </button>
             </Tooltip>
-            <Tooltip text="Ver configuración IP">
-                <button class="tool-btn" on:click={() => openWindowsTool('ipconfig')}>
+            <Tooltip text={platform === 'windows' ? 'Ver configuración IP' : 'Abrir un resumen actual de IP, rutas y DNS'}>
+                <button class="tool-btn" on:click={() => openSystemTool('network_snapshot')}>
                     <Icon name="terminal" size={14} />
-                    ipconfig /all
+                    {summaryLabel}
                 </button>
             </Tooltip>
-            <Tooltip text="Abrir CMD">
-                <button class="tool-btn" on:click={() => openWindowsTool('cmd')}>
+            <Tooltip text={platform === 'windows' ? 'Abrir CMD' : 'Abrir una terminal del sistema'}>
+                <button class="tool-btn" on:click={() => openSystemTool('terminal')}>
                     <Icon name="terminal" size={14} />
-                    CMD
+                    {terminalLabel}
                 </button>
             </Tooltip>
         </div>

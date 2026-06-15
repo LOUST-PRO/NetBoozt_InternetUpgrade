@@ -6,6 +6,7 @@
      * By LOUST (www.loust.pro)
      */
     
+    import { onMount } from 'svelte';
     import { invoke } from '$lib/tauri-bridge';
     import { createEventDispatcher } from 'svelte';
     import type { DiagnosticResult, NetworkHealth } from '$lib/types';
@@ -19,6 +20,7 @@
     
     let runningTroubleshooter = false;
     let resettingNetwork = false;
+    let platform: 'windows' | 'linux' | 'other' = 'other';
     
     const healthColors: Record<NetworkHealth, string> = {
         Excellent: '#00d4aa',
@@ -37,6 +39,23 @@
         Bad: '🔴',
         Down: '⚫'
     };
+
+    onMount(() => {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('windows')) {
+            platform = 'windows';
+        } else if (ua.includes('linux')) {
+            platform = 'linux';
+        }
+    });
+
+    $: troubleshooterLabel = platform === 'windows' ? 'Solucionador Windows' : 'Asistente de red';
+    $: resetConfirmMessage = platform === 'windows'
+        ? '¿Resetear la pila de red de Windows?\n\nEsto ejecutará:\n• Winsock reset\n• IP stack reset\n• DNS flush\n• DHCP release/renew\n\n⚠️ Puede interrumpir temporalmente la conexión.'
+        : '¿Aplicar un reset de red seguro en Linux?\n\nEsto intentará:\n• Limpiar caché DNS\n• Reaplicar la configuración de NetworkManager\n\n⚠️ Puede interrumpir temporalmente la conexión.';
+    $: resetTitle = platform === 'windows'
+        ? 'Resetear Winsock, pila IP, DNS y renovar DHCP'
+        : 'Limpiar caché DNS y reaplicar la conexión activa';
     
     // Mostrar botones de ayuda si hay problemas
     $: hasProblems = diagnostic && (
@@ -48,11 +67,11 @@
         (diagnostic.score && diagnostic.score < 70)
     );
     
-    async function runWindowsTroubleshooter() {
+    async function runNetworkTroubleshooter() {
         try {
             runningTroubleshooter = true;
-            await invoke('run_windows_network_troubleshooter');
-            dispatch('toast', { type: 'info', message: 'Solucionador de Windows iniciado' });
+            const message = await invoke<string>('run_windows_network_troubleshooter');
+            dispatch('toast', { type: 'info', message });
         } catch (e) {
             dispatch('toast', { type: 'error', message: `Error: ${e}` });
         } finally {
@@ -61,14 +80,14 @@
     }
     
     async function resetNetworkStack() {
-        if (!confirm('¿Resetear la pila de red de Windows?\n\nEsto ejecutará:\n• Winsock reset\n• IP stack reset\n• DNS flush\n• DHCP release/renew\n\n⚠️ Puede interrumpir temporalmente la conexión.')) {
+        if (!confirm(resetConfirmMessage)) {
             return;
         }
         
         try {
             resettingNetwork = true;
-            await invoke('reset_network_stack');
-            dispatch('toast', { type: 'success', message: 'Pila de red reseteada. La conexión debería restaurarse en unos segundos.' });
+            const message = await invoke<string>('reset_network_stack');
+            dispatch('toast', { type: 'success', message });
         } catch (e) {
             dispatch('toast', { type: 'error', message: `Error: ${e}` });
         } finally {
@@ -188,15 +207,15 @@
             <div class="action-buttons">
                 <button 
                     class="action-btn troubleshooter"
-                    on:click={runWindowsTroubleshooter}
+                    on:click={runNetworkTroubleshooter}
                     disabled={runningTroubleshooter}
-                    title="Ejecutar el solucionador de problemas de red integrado de Windows"
+                    title={platform === 'windows' ? 'Ejecutar el solucionador de problemas de red integrado de Windows' : 'Abrir la herramienta de ayuda o ajustes de red del sistema'}
                 >
                     {#if runningTroubleshooter}
                         <span class="spinner-small"></span>
                         Iniciando...
                     {:else}
-                        🔧 Solucionador Windows
+                        🔧 {troubleshooterLabel}
                     {/if}
                 </button>
                 
@@ -204,7 +223,7 @@
                     class="action-btn reset"
                     on:click={resetNetworkStack}
                     disabled={resettingNetwork}
-                    title="Resetear Winsock, pila IP, DNS y renovar DHCP"
+                    title={resetTitle}
                 >
                     {#if resettingNetwork}
                         <span class="spinner-small"></span>

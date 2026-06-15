@@ -9,8 +9,7 @@ export type UnlistenFn = () => void;
 // Detectar si estamos en Tauri
 export function isTauriAvailable(): boolean {
     return typeof window !== 'undefined' && 
-           '__TAURI__' in window && 
-           typeof (window as any).__TAURI_IPC__ === 'function';
+           '__TAURI_INTERNALS__' in window;
 }
 
 // Mock data para modo web/desarrollo
@@ -100,7 +99,7 @@ type MockCommands = {
 export async function invoke<T = unknown>(cmd: string, args?: Record<string, unknown>): Promise<T> {
     if (isTauriAvailable()) {
         // Usar Tauri real
-        const { invoke: tauriInvoke } = await import('@tauri-apps/api/tauri');
+        const { invoke: tauriInvoke } = await import('@tauri-apps/api/core');
         return tauriInvoke<T>(cmd, args);
     }
     
@@ -131,8 +130,8 @@ export async function invoke<T = unknown>(cmd: string, args?: Record<string, unk
         apply_profile: ['RSS', 'RSC', 'ECN', 'Autotuning', 'HyStart', 'PRR', 'FastOpen', 'Pacing'],
         reset_to_defaults: ['RSS', 'RSC', 'ECN', 'Autotuning', 'Timestamps', 'HyStart', 'PRR', 'FastOpen'],
         // Nuevos comandos de diagnóstico
-        run_windows_network_troubleshooter: 'Solucionador de problemas de red iniciado',
-        reset_network_stack: 'Pila de red reseteada correctamente',
+        run_windows_network_troubleshooter: 'Asistente de red del sistema iniciado',
+        reset_network_stack: 'Reset de red solicitado correctamente',
         measure_dns_resolution: { domain: 'google.com', success: true, latency_ms: 25, error: null },
         // Comandos DNS Intelligence
         get_dns_failover_history: [],

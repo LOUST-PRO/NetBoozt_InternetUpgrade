@@ -96,14 +96,14 @@ export async function checkDNSHealth(server: string): Promise<DNSHealth> {
 }
 
 /**
- * Ejecutar el solucionador de problemas de red de Windows
+ * Ejecutar el asistente de red del sistema
  */
 export async function runWindowsNetworkTroubleshooter(): Promise<string> {
     return invoke<string>('run_windows_network_troubleshooter');
 }
 
 /**
- * Resetear la pila de red de Windows (winsock, IP, DNS, DHCP)
+ * Resetear la red del sistema con la mejor estrategia soportada por la plataforma
  */
 export async function resetNetworkStack(): Promise<string> {
     return invoke<string>('reset_network_stack');

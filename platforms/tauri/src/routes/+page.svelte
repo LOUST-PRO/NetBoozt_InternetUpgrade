@@ -456,9 +456,13 @@
             const result = await invoke<string>('open_cli_manager');
             
             terminalLogs.info('✅ ' + result);
-            terminalLogs.info('💡 El CLI Manager requiere permisos de administrador para algunas operaciones');
+            if (result.toLowerCase().includes('windows-only')) {
+                terminalLogs.info('💡 El CLI legado es exclusivo de Windows; en Linux se abrió una terminal del sistema para seguir trabajando con NetBoozt');
+            } else {
+                terminalLogs.info('💡 El CLI Manager requiere permisos de administrador para algunas operaciones');
+            }
             
-            showToast('success', 'CLI Manager abierto en nueva ventana');
+            showToast('success', result);
         } catch (e) {
             terminalLogs.error(`❌ Error abriendo CLI: ${e}`);
             showToast('error', `Error abriendo CLI Manager: ${e}`);
