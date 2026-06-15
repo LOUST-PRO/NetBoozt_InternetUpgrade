@@ -256,6 +256,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.3] - 2026-06-15
+
+### Fixed
+- DNS failover now applies changes to OS (was only updating memory before)
+- DNS intelligence service: Linux NetworkManager support added
+- PowerShell capability narrowed to specific DNS cmdlets only
+
+### Changed
+- Full Linux NetworkManager integration in dns.rs (+292 lines)
+
 ## [Unreleased]
 
 ### Planned for v2.2
