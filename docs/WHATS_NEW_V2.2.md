@@ -571,6 +571,6 @@ NetBoozt v2.2 has been made possible thanks to:
 
 **Made with ❤️ by [LOUST](https://www.loust.pro)**
 
-[🐛 Report Bug](https://github.com/louzt/NetBoozt_InternetUpgrade/issues) • [💡 Suggest Feature](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions)
+[🐛 Report Bug](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues) • [💡 Suggest Feature](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions)
 
 </div>

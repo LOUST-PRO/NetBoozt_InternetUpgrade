@@ -5,7 +5,7 @@
 ### Paso 1: Clonar Repositorio
 
 ```powershell
-git clone https://github.com/louzt/NetBoozt_InternetUpgrade.git
+git clone https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade.git
 cd NetBoozt_InternetUpgrade/windows
 ```
 

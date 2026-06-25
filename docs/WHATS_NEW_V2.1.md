@@ -359,8 +359,8 @@ Special thanks to:
 
 ## 📞 Support
 
-- **GitHub Issues**: [Report bugs](https://github.com/louzt/NetBoozt_InternetUpgrade/issues)
-- **Discussions**: [Ask questions](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions)
+- **GitHub Issues**: [Report bugs](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues)
+- **Discussions**: [Ask questions](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions)
 - **Email**: opensource@loust.pro
 - **Twitter/X**: [@lou404x](https://twitter.com/lou404x)
 

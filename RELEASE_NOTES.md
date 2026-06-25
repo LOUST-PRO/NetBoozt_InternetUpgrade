@@ -97,4 +97,4 @@
 
 ---
 
-**Desarrollado por LOUST** | [www.loust.pro](https://loust.pro) | MIT License
+**Desarrollado por LOUST** | [www.loust.pro](https://loust.pro) | Apache-2.0 License

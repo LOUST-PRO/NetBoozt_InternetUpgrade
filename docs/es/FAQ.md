@@ -11,7 +11,7 @@ NetBoozt es un kit de herramientas avanzado de optimización TCP/IP que trae ren
 - ✅ 100% reversible con un click
 - ✅ Solo modifica el registro de Windows (sin parches binarios)
 - ✅ No requiere drivers a nivel kernel
-- ✅ Open-source (Licencia MIT)
+- ✅ Open-source (Licencia Apache-2.0)
 - ✅ Sistema de backups integrado en v2.1
 
 ### ¿Por qué creaste este proyecto?
@@ -281,23 +281,23 @@ speedtest-cli > despues.txt
 ## Soporte
 
 ### ¿Dónde obtengo ayuda?
-- **GitHub Issues**: [Reportar bugs](https://github.com/louzt/NetBoozt_InternetUpgrade/issues)
-- **Discussions**: [Preguntas e ideas](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions)
+- **GitHub Issues**: [Reportar bugs](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues)
+- **Discussions**: [Preguntas e ideas](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions)
 - **Email**: opensource@loust.pro
 
 ### ¿Cómo reporto bugs?
-[Abrir un issue](https://github.com/louzt/NetBoozt_InternetUpgrade/issues/new) con:
+[Abrir un issue](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues/new) con:
 1. Versión de Windows
 2. Versión de Python
 3. Mensaje de error/logs
 4. Pasos para reproducir
 
 ### ¿Cómo solicito features?
-[Iniciar una discusión](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions/new) describiendo:
+[Iniciar una discusión](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions/new) describiendo:
 1. Descripción del feature
 2. Caso de uso
 3. Beneficio esperado
 
 ---
 
-**¿Aún tienes preguntas?** [Pregunta en GitHub Discussions](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions) 💬
+**¿Aún tienes preguntas?** [Pregunta en GitHub Discussions](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions) 💬

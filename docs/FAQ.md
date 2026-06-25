@@ -18,7 +18,7 @@ Yes! NetBoozt:
 - ✅ 100% reversible with one click
 - ✅ Only modifies Windows registry (no binary patching)
 - ✅ No kernel-level drivers required
-- ✅ Open-source (MIT License)
+- ✅ Open-source (Apache-2.0 License)
 - ✅ 9300+ lines of tested code
 
 ### Will it void my warranty?
@@ -231,7 +231,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 - Pull request process
 
 ### Is there a paid version?
-No. NetBoozt is 100% free and open-source (MIT License). No premium features, no telemetry, no ads.
+No. NetBoozt is 100% free and open-source (Apache-2.0 License). No premium features, no telemetry, no ads.
 
 ## Legal
 
@@ -239,31 +239,31 @@ No. NetBoozt is 100% free and open-source (MIT License). No premium features, no
 Yes. NetBoozt modifies your own computer's settings, which is perfectly legal.
 
 ### Can I use it commercially?
-Yes! MIT License permits commercial use. See [LICENSE](../LICENSE).
+Yes! Apache-2.0 License permits commercial use. See [LICENSE](../LICENSE).
 
 ### Can I redistribute?
-Yes, under MIT License terms. Attribution required.
+Yes, under Apache-2.0 License terms. Attribution required.
 
 ## Support
 
 ### Where do I get help?
-- **GitHub Issues**: [Bug reports](https://github.com/louzt/NetBoozt_InternetUpgrade/issues)
-- **Discussions**: [Questions & ideas](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions)
+- **GitHub Issues**: [Bug reports](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues)
+- **Discussions**: [Questions & ideas](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions)
 - **Email**: opensource@loust.pro
 
 ### How do I report bugs?
-[Open an issue](https://github.com/louzt/NetBoozt_InternetUpgrade/issues/new) with:
+[Open an issue](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues/new) with:
 1. Windows version
 2. Python version
 3. Error message/logs
 4. Steps to reproduce
 
 ### How do I request features?
-[Start a discussion](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions/new) describing:
+[Start a discussion](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions/new) describing:
 1. Feature description
 2. Use case
 3. Expected benefit
 
 ---
 
-**Still have questions?** [Ask on GitHub Discussions](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions) 💬
+**Still have questions?** [Ask on GitHub Discussions](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions) 💬
