@@ -8,7 +8,7 @@
 
 [![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Producción-00d4aa.svg?logo=tauri)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
 [![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
-[![Licencia](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
+[![Licencia](https://img.shields.io/badge/licencia-Apache_2.0-blue.svg)](LICENSE)
 [![Plataforma](https://img.shields.io/badge/plataforma-Windows-0078D6.svg?logo=windows)]()
 [![Stars](https://img.shields.io/github/stars/louzt/NetBoozt_InternetUpgrade?style=social)](https://github.com/louzt/NetBoozt_InternetUpgrade)
 
@@ -151,7 +151,11 @@ Ver [CONTRIBUTING.md](CONTRIBUTING.md) | [Reportar Bugs](https://github.com/louz
 
 ## 📜 Licencia
 
-MIT - [LICENSE](LICENSE)
+Licenciado bajo Apache-2.0. Ver [`LICENSE`](LICENSE) para el texto completo.
+Esta es una decisión deliberada de licencia única tomada el 2026-06-25:
+la concesión explícita de patentes y la cláusula de retaliación son las
+adecuadas para tooling B2B/infra. Anteriormente se usó MIT (durante el
+bootstrap inicial); esa opción ya no se ofrece.
 
 ---
 

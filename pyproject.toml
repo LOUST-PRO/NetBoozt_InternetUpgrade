@@ -6,15 +6,15 @@ name = "NetBoozt"
 version = "2.2.0"
 description = "Advanced TCP/IP Network Optimization Toolkit for Windows & Linux"
 authors = ["LOUST <www.loust.pro>"]
-license = "MIT"
+license = "Apache-2.0"
 readme = "README.md"
-homepage = "https://github.com/louzt/NetBoozt_InternetUpgrade"
-repository = "https://github.com/louzt/NetBoozt_InternetUpgrade"
+homepage = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"
+repository = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"
 keywords = ["network", "tcp", "optimization", "performance", "speedtest"]
 
 [project.urls]
-"Bug Tracker" = "https://github.com/louzt/NetBoozt_InternetUpgrade/issues"
-"Documentation" = "https://github.com/louzt/NetBoozt_InternetUpgrade/wiki"
+"Bug Tracker" = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues"
+"Documentation" = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/wiki"
 
 [tool.black]
 line-length = 100

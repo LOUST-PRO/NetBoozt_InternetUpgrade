@@ -8,7 +8,7 @@
 
 [![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Production-00d4aa.svg?logo=tauri)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
 [![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6.svg?logo=windows)]()
 [![Stars](https://img.shields.io/github/stars/louzt/NetBoozt_InternetUpgrade?style=social)](https://github.com/louzt/NetBoozt_InternetUpgrade)
 
@@ -137,7 +137,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). PRs welcome!
 
 ## 📜 License
 
-MIT License - [LICENSE](LICENSE)
+Licensed under Apache-2.0. See [`LICENSE`](LICENSE) for the full text.
+This is a deliberate single-license choice made on 2026-06-25: the
+explicit patent grant and retaliation clause are the right fit for
+B2B/infra tooling. Earlier MIT-only was used during initial bootstrap;
+that combination is no longer offered.
 
 ---
 

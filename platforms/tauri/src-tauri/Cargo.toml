@@ -3,8 +3,8 @@ name = "netboozt"
 version = "3.0.2"
 description = "Network Optimization Tool for Windows"
 authors = ["LOUST <opensource@loust.pro>"]
-license = "MIT"
-repository = "https://github.com/louzt/NetBoozt_InternetUpgrade"
+license = "Apache-2.0"
+repository = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"
 edition = "2021"
 rust-version = "1.70"
 
