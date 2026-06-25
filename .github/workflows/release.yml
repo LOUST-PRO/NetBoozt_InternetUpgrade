@@ -75,15 +75,15 @@ jobs:
           - Permisos de administrador para optimizaciones TCP/IP
           
           ### 📋 Changelog
-          Ver [CHANGELOG.md](https://github.com/louzt/NetBoozt_InternetUpgrade/blob/main/CHANGELOG.md)
-          
+          Ver [CHANGELOG.md](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/blob/main/CHANGELOG.md)
+
           ### 🔗 Links
-          - [Documentación](https://github.com/louzt/NetBoozt_InternetUpgrade#readme)
-          - [Reportar Issues](https://github.com/louzt/NetBoozt_InternetUpgrade/issues)
+          - [Documentación](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade#readme)
+          - [Reportar Issues](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues)
           - [LOUST](https://www.loust.pro)
-          
+
           ---
-          **Full Changelog**: https://github.com/louzt/NetBoozt_InternetUpgrade/compare/v3.0.0...v${{ steps.version.outputs.VERSION }}
+          **Full Changelog**: https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/compare/v3.0.0...v${{ steps.version.outputs.VERSION }}
         draft: false
         prerelease: false
       env:

@@ -618,4 +618,4 @@ python netboozt_cli.py
 
 **Contacto:** opensource@loust.pro  
 **Website:** www.loust.pro  
-**GitHub:** github.com/louzt/NetBoozt_InternetUpgrade
+**GitHub:** github.com/LOUST-PRO/NetBoozt_InternetUpgrade

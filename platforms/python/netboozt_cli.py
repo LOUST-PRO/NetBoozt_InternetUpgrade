@@ -195,7 +195,7 @@ def show_docs():
     
     import webbrowser
     # Abrir docs en GitHub o link de docs
-    webbrowser.open("https://github.com/louzt/NetBoozt_InternetUpgrade#readme")
+    webbrowser.open("https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade#readme")
     
     print(f"{Colors.SUCCESS}✓{Colors.RESET} Opened in browser\n")
     input(f"{Colors.DIM}Press Enter to go back...{Colors.RESET}")
@@ -426,7 +426,7 @@ def action_deploy():
 def action_github():
     """Abrir repo en navegador"""
     import webbrowser
-    repo_url = "https://github.com/louzt/NetBoozt_InternetUpgrade"
+    repo_url = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"
     print(f"\n{Colors.INFO}▶{Colors.RESET} Opening GitHub repo...")
     webbrowser.open(repo_url)
     print(f"{Colors.SUCCESS}✓{Colors.RESET} Opened {repo_url}")

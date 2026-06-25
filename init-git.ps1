@@ -8,7 +8,7 @@ Write-Host @"
 "@ -ForegroundColor Cyan
 
 $repoPath = "L:\NetworkFailover\NetBoozt"
-$remoteUrl = "git@github.com:louzt/NetBoozt_InternetUpgrade.git"
+$remoteUrl = "git@github.com:LOUST-PRO/NetBoozt_InternetUpgrade.git"
 
 Write-Host "`n📦 Inicializando repositorio Git..." -ForegroundColor Yellow
 

@@ -6,11 +6,11 @@
 
 **Transform Your Internet Speed Without Changing Your ISP**
 
-[![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Production-00d4aa.svg?logo=tauri)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
-[![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
+[![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Production-00d4aa.svg?logo=tauri)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
+[![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6.svg?logo=windows)]()
-[![Stars](https://img.shields.io/github/stars/louzt/NetBoozt_InternetUpgrade?style=social)](https://github.com/louzt/NetBoozt_InternetUpgrade)
+[![Stars](https://img.shields.io/github/stars/LOUST-PRO/NetBoozt_InternetUpgrade?style=social)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade)
 
 **BBR-like Performance • Auto DNS Failover • Real-time Monitoring • 4-Phase Diagnostics**
 
@@ -30,7 +30,7 @@ Modern, lightweight (~8MB) with **Rust + SvelteKit**. Glassmorphism UI.
 
 | Platform | Download | Tech |
 |----------|----------|------|
-| Windows x64 | [NetBoozt_3.0.0-beta.msi](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v3.0.0-beta.1) | Rust + Tauri 1.5 |
+| Windows x64 | [NetBoozt_3.0.0-beta.msi](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0-beta.1) | Rust + Tauri 1.5 |
 
 ### 🐍 Python Version (v2.2.0) — Stable
 
@@ -38,7 +38,7 @@ Battle-tested (~25MB) with **Python + CustomTkinter**. Includes full CLI.
 
 | Platform | Download | Tech |
 |----------|----------|------|
-| Windows x64 | [NetBoozt_v2.2.0.exe](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v2.2.0) | Python 3.11 + Nuitka |
+| Windows x64 | [NetBoozt_v2.2.0.exe](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v2.2.0) | Python 3.11 + Nuitka |
 
 ### Which Version?
 

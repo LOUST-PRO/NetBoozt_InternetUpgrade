@@ -33,7 +33,7 @@
 ### Windows
 ```powershell
 # Clone repository
-git clone git@github.com:louzt/NetBoozt_InternetUpgrade.git
+git clone git@github.com:LOUST-PRO/NetBoozt_InternetUpgrade.git
 cd NetBoozt_InternetUpgrade
 
 # Create virtual environment
@@ -54,7 +54,7 @@ python windows/run.py
 ### Linux
 ```bash
 # Clone repository
-git clone git@github.com:louzt/NetBoozt_InternetUpgrade.git
+git clone git@github.com:LOUST-PRO/NetBoozt_InternetUpgrade.git
 cd NetBoozt_InternetUpgrade
 
 # Create virtual environment
@@ -224,8 +224,8 @@ Email: opensource@loust.pro
 
 - **Website**: www.loust.pro
 - **Email**: opensource@loust.pro
-- **GitHub Issues**: [NetBoozt Issues](https://github.com/louzt/NetBoozt_InternetUpgrade/issues)
-- **Discussions**: [NetBoozt Discussions](https://github.com/louzt/NetBoozt_InternetUpgrade/discussions)
+- **GitHub Issues**: [NetBoozt Issues](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues)
+- **Discussions**: [NetBoozt Discussions](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions)
 
 ## 🎖️ Reconocimientos
 

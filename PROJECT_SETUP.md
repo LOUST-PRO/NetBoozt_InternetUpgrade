@@ -247,7 +247,7 @@ python tools/create_favicon.py
 .\init-git.ps1
 # Follow prompts for git config
 # Creates initial commit with all files
-# Sets up remote: git@github.com:louzt/NetBoozt_InternetUpgrade.git
+# Sets up remote: git@github.com:LOUST-PRO/NetBoozt_InternetUpgrade.git
 ```
 
 **First push**:
@@ -342,9 +342,9 @@ Since Windows can't use BBR directly, we optimize:
 
 ## 📞 Support & Community
 
-- **Repository**: https://github.com/louzt/NetBoozt_InternetUpgrade
-- **Issues**: https://github.com/louzt/NetBoozt_InternetUpgrade/issues
-- **Discussions**: https://github.com/louzt/NetBoozt_InternetUpgrade/discussions
+- **Repository**: https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade
+- **Issues**: https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues
+- **Discussions**: https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions
 - **Email**: opensource@loust.pro
 - **Website**: https://www.loust.pro
 

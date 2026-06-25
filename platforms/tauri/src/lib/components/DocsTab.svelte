@@ -24,7 +24,7 @@
     
     async function fetchReadme() {
         try {
-            const res = await fetch('https://raw.githubusercontent.com/louzt/NetBoozt_InternetUpgrade/main/README.md');
+            const res = await fetch('https://raw.githubusercontent.com/LOUST-PRO/NetBoozt_InternetUpgrade/main/README.md');
             if (!res.ok) throw new Error('No se pudo cargar');
             readmeContent = await res.text();
         } catch (e) {
@@ -106,10 +106,10 @@
             
             <section class="doc-section">
                 <div class="readme-actions">
-                    <a href="https://github.com/louzt/NetBoozt_InternetUpgrade" target="_blank" class="btn-readme">
+                    <a href="https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade" target="_blank" class="btn-readme">
                         <span>🔗</span> Ver en GitHub
                     </a>
-                    <a href="https://github.com/louzt/NetBoozt_InternetUpgrade/releases" target="_blank" class="btn-readme">
+                    <a href="https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases" target="_blank" class="btn-readme">
                         <span>📦</span> Releases
                     </a>
                 </div>

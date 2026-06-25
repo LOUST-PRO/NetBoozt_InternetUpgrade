@@ -21,7 +21,7 @@ class GitHubTab(ctk.CTkScrollableFrame):
             scrollbar_button_hover_color=SCROLLBAR_HOVER
         )
         
-        self.repo_url = "https://github.com/louzt/NetBoozt_InternetUpgrade"
+        self.repo_url = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"
         self.author_url = "https://github.com/louzt"
         self.website_url = "https://loust.pro"
         

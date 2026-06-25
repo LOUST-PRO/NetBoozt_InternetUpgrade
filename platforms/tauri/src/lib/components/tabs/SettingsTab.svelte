@@ -507,7 +507,7 @@
         </div>
         
         <div class="action-group">
-            <a class="btn btn-ghost" href="https://github.com/louzt/NetBoozt_InternetUpgrade/discussions" target="_blank">
+            <a class="btn btn-ghost" href="https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/discussions" target="_blank">
                 <Icon name="help-circle" size={14} />
                 Ayuda
             </a>

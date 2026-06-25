@@ -163,7 +163,7 @@ class SplashScreen(ctk.CTkToplevel):
             cursor="hand2"
         )
         self.github_label.pack(side="left", padx=5)
-        self.github_label.bind("<Button-1>", lambda e: self.open_url("https://github.com/louzt/NetBoozt_InternetUpgrade"))
+        self.github_label.bind("<Button-1>", lambda e: self.open_url("https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"))
         
         # Botón de cerrar (esquina superior derecha)
         self.close_button = ctk.CTkButton(

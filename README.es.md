@@ -6,11 +6,11 @@
 
 **Transforma tu Velocidad de Internet Sin Cambiar de ISP**
 
-[![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Producción-00d4aa.svg?logo=tauri)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
-[![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
+[![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Producción-00d4aa.svg?logo=tauri)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
+[![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
 [![Licencia](https://img.shields.io/badge/licencia-Apache_2.0-blue.svg)](LICENSE)
 [![Plataforma](https://img.shields.io/badge/plataforma-Windows-0078D6.svg?logo=windows)]()
-[![Stars](https://img.shields.io/github/stars/louzt/NetBoozt_InternetUpgrade?style=social)](https://github.com/louzt/NetBoozt_InternetUpgrade)
+[![Stars](https://img.shields.io/github/stars/LOUST-PRO/NetBoozt_InternetUpgrade?style=social)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade)
 
 **Rendimiento BBR • Auto-Failover DNS • Monitoreo Real • Diagnóstico 4 Fases**
 
@@ -30,7 +30,7 @@ Producción, moderna y ligera (~8MB) con **Rust + SvelteKit**. UI Glassmorphism.
 
 | Plataforma | Descarga | Tech |
 |------------|----------|------|
-| Windows x64 | [NetBoozt_3.0.0.msi](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v3.0.0) | Rust + Tauri 1.5 |
+| Windows x64 | [NetBoozt_3.0.0.msi](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0) | Rust + Tauri 1.5 |
 
 ### 🐍 Versión Python (v2.2.0) — Legacy
 
@@ -38,7 +38,7 @@ Implementación original (~25MB) con **Python + CustomTkinter**. Inicio lento, U
 
 | Plataforma | Descarga | Tech |
 |------------|----------|------|
-| Windows x64 | [NetBoozt_v2.2.0.exe](https://github.com/louzt/NetBoozt_InternetUpgrade/releases/tag/v2.2.0) | Python 3.11 + Nuitka |
+| Windows x64 | [NetBoozt_v2.2.0.exe](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v2.2.0) | Python 3.11 + Nuitka |
 
 ### ¿Cuál Elegir?
 
@@ -145,7 +145,7 @@ python run_modern.py  # Ejecutar como Administrador
 
 ## 🤝 Contribuir
 
-Ver [CONTRIBUTING.md](CONTRIBUTING.md) | [Reportar Bugs](https://github.com/louzt/NetBoozt_InternetUpgrade/issues)
+Ver [CONTRIBUTING.md](CONTRIBUTING.md) | [Reportar Bugs](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/issues)
 
 ---
 
@@ -163,6 +163,6 @@ bootstrap inicial); esa opción ya no se ofrece.
 
 **Hecho con ❤️ por [LOUST](https://www.loust.pro)**
 
-[Website](https://www.loust.pro) • [GitHub](https://github.com/louzt/NetBoozt_InternetUpgrade) • [Twitter](https://twitter.com/lou404x)
+[Website](https://www.loust.pro) • [GitHub](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade) • [Twitter](https://twitter.com/lou404x)
 
 </div>

@@ -216,7 +216,7 @@ Saludos,
     
     def open_github(self):
         """Abrir repositorio en GitHub"""
-        webbrowser.open("https://github.com/louzt/NetBoozt_InternetUpgrade")
+        webbrowser.open("https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade")
     
     def close_dialog(self):
         """Cerrar diálogo"""
