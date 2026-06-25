@@ -185,7 +185,7 @@ class AboutTab(ctk.CTkScrollableFrame):
         
         footer_text = ctk.CTkLabel(
             footer,
-            text="Made with ❤️ by LOUST\n© 2024 - MIT License",
+            text="Made with ❤️ by LOUST\n© 2024 - Apache-2.0 License",
             font=ctk.CTkFont(size=12),
             text_color=TEXT_SECONDARY,
             justify="center"

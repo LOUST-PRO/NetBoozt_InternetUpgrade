@@ -17,7 +17,7 @@ applyTo: '**'
 | **Versión** | 2.2.x |
 | **Lenguaje** | Python 3.11+ (migrando a Rust/Tauri en v3.0) |
 | **GUI Framework** | CustomTkinter |
-| **Licencia** | MIT (opensource) / Propietaria (versión LOUST) |
+| **Licencia** | Apache-2.0 |
 | **Autor** | LOUST (www.loust.pro) |
 
 ---

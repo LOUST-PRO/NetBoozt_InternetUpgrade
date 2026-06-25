@@ -6,7 +6,7 @@
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║  Author:  LOUST (www.loust.pro)                                               ║
 ║  Version: 2.2.x                                                               ║
-║  License: MIT (opensource) / Proprietary (LOUST version)                       ║
+║  License: Apache-2.0                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║  Entry Point: GUI Application with System Tray                                ║
 ║                                                                               ║

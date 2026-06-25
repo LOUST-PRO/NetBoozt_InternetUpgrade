@@ -184,7 +184,7 @@ class GitHubTab(ctk.CTkScrollableFrame):
         # License
         ctk.CTkLabel(
             author_section,
-            text="📄 MIT License © 2024",
+            text="📄 Apache-2.0 License © 2024",
             font=ctk.CTkFont(size=FONT_SIZE_SMALL),
             text_color=TEXT_DISABLED
         ).pack(pady=(0, 20))

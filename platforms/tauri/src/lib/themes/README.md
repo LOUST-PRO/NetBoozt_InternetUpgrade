@@ -36,7 +36,7 @@ themes/
   "filename": "mi-fondo.webp",
   "author": "Tu Nombre",
   "source": "URL de origen",
-  "license": "CC0 / MIT / etc"
+  "license": "Apache-2.0 / CC0 / etc"
 }
 ```
 

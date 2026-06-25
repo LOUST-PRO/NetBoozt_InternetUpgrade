@@ -54,14 +54,14 @@ SOPORTE
 =======
 
   Web:     https://www.loust.pro
-  GitHub:  https://github.com/louzt/NetBoozt_InternetUpgrade
+  GitHub:  https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade
   Email:   opensource@loust.pro
 
 
 LICENCIA
 ========
 
-  MIT License (Open Source)
+  Apache-2.0 License
   Copyright (c) 2025 LOUST
 
 ═══════════════════════════════════════════════════════════════════════════════

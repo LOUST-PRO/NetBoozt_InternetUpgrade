@@ -103,7 +103,7 @@
                     issues: repo.open_issues_count,
                     lastUpdate: new Date(repo.updated_at).toLocaleDateString(),
                     description: repo.description || 'Network Optimization Tool for Windows',
-                    license: repo.license?.name || 'MIT License',
+                    license: repo.license?.name || 'Apache-2.0 License',
                     languages
                 };
             }

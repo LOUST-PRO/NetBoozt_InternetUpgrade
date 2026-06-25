@@ -163,7 +163,7 @@ python -m pytest tests/test_dns_intelligence.py -v
 
 ## 📄 Licencia
 
-- **Código abierto**: MIT License
+- **Código abierto**: Apache-2.0 License
 - **Versión LOUST**: Propietaria
 
 ---

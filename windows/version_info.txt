@@ -33,7 +33,7 @@ VSVersionInfo(
         StringStruct(u'FileDescription', u'NetBoozt - Network Performance Optimizer'),
         StringStruct(u'FileVersion', u'2.2.0.0'),
         StringStruct(u'InternalName', u'NetBoozt'),
-        StringStruct(u'LegalCopyright', u'Copyright (c) 2024 LOUST. MIT License'),
+        StringStruct(u'LegalCopyright', u'Copyright (c) 2024 LOUST. Apache-2.0 License'),
         StringStruct(u'OriginalFilename', u'NetBoozt.exe'),
         StringStruct(u'ProductName', u'NetBoozt'),
         StringStruct(u'ProductVersion', u'2.2.0.0')])
