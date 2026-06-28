@@ -136,6 +136,24 @@ journalctl --user -u netboozt-dns.service
 ./uninstall-systemd.sh
 ```
 
+### Windows DNS Failover Service
+
+Run DNS failover as a Windows Service — survives restarts and runs without a logged-in user:
+
+```powershell
+# Build (on Windows, with Rust toolchain)
+cargo build --release --bin netboozt-service
+
+# Install (run as Administrator)
+.\platforms\tauri\scripts\install-windows-service.ps1
+
+# Status
+Get-Service netboozt-dns
+
+# Uninstall (run as Administrator)
+.\platforms\tauri\scripts\uninstall-windows-service.ps1
+```
+
 ---
 
 ## 🎯 Profiles
