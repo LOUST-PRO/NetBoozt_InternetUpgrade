@@ -21,7 +21,7 @@ pub fn run_service() {
                     ServiceControlHandlerResult::NoError
                 }
                 ServiceControl::Interrogate => ServiceControlHandlerResult::NoError,
-                _ => ServiceControlHandlerResult::NoChange,
+                _ => ServiceControlHandlerResult::NotImplemented,
             })
             .expect("Failed to register service control handler");
 
@@ -33,7 +33,7 @@ pub fn run_service() {
                 exit_code: ServiceExitCode::Win32(0),
                 checkpoint: 0,
                 wait_hint: Duration::default(),
-                process_id: 0,
+                process_id: None,
             })
             .expect("Failed to set service status");
 
@@ -62,7 +62,7 @@ pub fn run_service() {
                 exit_code: ServiceExitCode::Win32(0),
                 checkpoint: 0,
                 wait_hint: Duration::default(),
-                process_id: 0,
+                process_id: None,
             })
             .ok();
 
