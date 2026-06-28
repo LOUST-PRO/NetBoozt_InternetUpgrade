@@ -117,6 +117,25 @@ pip install -r requirements.txt
 python run_modern.py  # Run as Administrator
 ```
 
+### Linux Headless DNS Failover
+
+Run DNS failover as a systemd user service — no GUI required, survives logout/lid-close:
+
+```bash
+# Build headless binary (from platforms/tauri/src-tauri/)
+cargo build --release --bin netboozt-headless
+
+# Install
+cd platforms/tauri/scripts && ./install-systemd.sh
+
+# Status & logs
+systemctl --user status netboozt-dns.service
+journalctl --user -u netboozt-dns.service
+
+# Uninstall
+./uninstall-systemd.sh
+```
+
 ---
 
 ## 🎯 Profiles

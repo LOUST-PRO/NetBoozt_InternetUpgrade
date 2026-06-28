@@ -131,6 +131,25 @@ python run_modern.py  # Ejecutar como Administrador
 3. **Activar DNS Auto-Failover** → Conectividad siempre activa
 4. **Crear Backup** → Seguridad primero
 
+### Servicio Headless DNS en Linux
+
+Ejecuta el failover DNS como servicio systemd de usuario — sin GUI, sobrevive cierre de sesión:
+
+```bash
+# Compilar binario headless (desde platforms/tauri/src-tauri/)
+cargo build --release --bin netboozt-headless
+
+# Instalar
+cd platforms/tauri/scripts && ./install-systemd.sh
+
+# Estado y logs
+systemctl --user status netboozt-dns.service
+journalctl --user -u netboozt-dns.service
+
+# Desinstalar
+./uninstall-systemd.sh
+```
+
 ---
 
 ## 🎯 Perfiles
