@@ -47,12 +47,24 @@ pub struct DnsMetrics {
     pub score: f64,
     pub rank: u32,
 
+    // Tier label para display (e.g., "Tier 1 — Speed", "Tier 5 — Security")
+    pub tier_label: String,
+
     // Failover tracking
     pub consecutive_failures: u32,
 }
 
 impl DnsMetrics {
-    fn new(address: &str, name: &str) -> Self {
+    fn new(address: &str, name: &str, tier: u8) -> Self {
+        let tier_label = match tier {
+            1 => "Tier 1 — Speed",
+            2 => "Tier 2 — Speed",
+            3 => "Tier 3 — Security",
+            4 => "Tier 4 — Security",
+            5 => "Tier 5 — Security",
+            6 => "Tier 6 — Security",
+            _ => "Unknown",
+        };
         Self {
             address: address.to_string(),
             name: name.to_string(),
@@ -68,6 +80,7 @@ impl DnsMetrics {
             failures_24h: 0,
             score: 50.0,
             rank: 0,
+            tier_label: tier_label.to_string(),
             consecutive_failures: 0,
         }
     }
@@ -129,19 +142,22 @@ impl Default for DnsIntelConfig {
     }
 }
 
-/// Servidores DNS conocidos
-const DNS_SERVERS: &[(&str, &str)] = &[
-    ("1.1.1.1", "Cloudflare"),
-    ("1.0.0.1", "Cloudflare Secondary"),
-    ("8.8.8.8", "Google"),
-    ("8.8.4.4", "Google Secondary"),
-    ("9.9.9.9", "Quad9"),
-    ("149.112.112.112", "Quad9 Secondary"),
-    ("208.67.222.222", "OpenDNS"),
-    ("208.67.220.220", "OpenDNS Secondary"),
-    ("94.140.14.14", "AdGuard"),
-    ("94.140.15.15", "AdGuard Secondary"),
-    ("185.228.168.9", "CleanBrowsing"),
+/// Servidores DNS conocidos — (address, name, tier).
+/// Tier mapping matches DNS_PROVIDERS in dns.rs:
+/// 1 = Speed (Cloudflare), 2 = Speed (Google), 3 = Security (Quad9),
+/// 4 = Security (OpenDNS), 5 = Security (AdGuard), 6 = Security (CleanBrowsing)
+const DNS_SERVERS: &[(&str, &str, u8)] = &[
+    ("1.1.1.1", "Cloudflare", 1),
+    ("1.0.0.1", "Cloudflare Secondary", 1),
+    ("8.8.8.8", "Google", 2),
+    ("8.8.4.4", "Google Secondary", 2),
+    ("9.9.9.9", "Quad9", 3),
+    ("149.112.112.112", "Quad9 Secondary", 3),
+    ("208.67.222.222", "OpenDNS", 4),
+    ("208.67.220.220", "OpenDNS Secondary", 4),
+    ("94.140.14.14", "AdGuard", 5),
+    ("94.140.15.15", "AdGuard Secondary", 5),
+    ("185.228.168.9", "CleanBrowsing", 6),
 ];
 
 /// Dominios de prueba para resolución
@@ -170,8 +186,8 @@ impl DnsIntelligence {
         let mut metrics = HashMap::new();
 
         // Inicializar métricas para todos los DNS
-        for (addr, name) in DNS_SERVERS {
-            metrics.insert(addr.to_string(), DnsMetrics::new(addr, name));
+        for (addr, name, tier) in DNS_SERVERS {
+            metrics.insert(addr.to_string(), DnsMetrics::new(addr, name, *tier));
         }
 
         Self {
@@ -279,7 +295,11 @@ impl DnsIntelligence {
                     s.spawn(move || {
                         chunk
                             .iter()
+<<<<<<< HEAD
                             .map(|(addr, _)| {
+=======
+                            .map(|(addr, _, _)| {
+>>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
                                 let (success, ping_ms, resolve_ms) = Self::check_single_dns(addr);
                                 (addr.to_string(), success, ping_ms, resolve_ms)
                             })
@@ -868,7 +888,11 @@ mod tests {
 
         let results: Vec<String> = DNS_SERVERS
             .chunks(chunk_size)
+<<<<<<< HEAD
             .flat_map(|chunk| chunk.iter().map(|(addr, _)| addr.to_string()))
+=======
+            .flat_map(|chunk| chunk.iter().map(|(addr, _, _)| addr.to_string()))
+>>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
             .collect();
 
         assert_eq!(results.len(), DNS_SERVERS.len());
@@ -880,7 +904,11 @@ mod tests {
         let metrics: Arc<RwLock<HashMap<String, DnsMetrics>>> = Arc::new(RwLock::new(
             DNS_SERVERS
                 .iter()
+<<<<<<< HEAD
                 .map(|(addr, name)| (addr.to_string(), DnsMetrics::new(addr, name)))
+=======
+                .map(|(addr, name, tier)| (addr.to_string(), DnsMetrics::new(addr, name, *tier)))
+>>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
                 .collect(),
         ));
         let history: Arc<Mutex<Vec<HistoryEntry>>> = Arc::new(Mutex::new(Vec::new()));
@@ -898,7 +926,11 @@ mod tests {
         let metrics: Arc<RwLock<HashMap<String, DnsMetrics>>> = Arc::new(RwLock::new(
             DNS_SERVERS
                 .iter()
+<<<<<<< HEAD
                 .map(|(addr, name)| (addr.to_string(), DnsMetrics::new(addr, name)))
+=======
+                .map(|(addr, name, tier)| (addr.to_string(), DnsMetrics::new(addr, name, *tier)))
+>>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
                 .collect(),
         ));
         let history: Arc<Mutex<Vec<HistoryEntry>>> = Arc::new(Mutex::new(Vec::new()));
@@ -935,7 +967,11 @@ mod tests {
     /// Verify that consecutive_failures increments on failure and resets on success.
     #[test]
     fn test_consecutive_failures_behavior() {
+<<<<<<< HEAD
         let mut metrics = DnsMetrics::new("9.9.9.9", "Quad9");
+=======
+        let mut metrics = DnsMetrics::new("9.9.9.9", "Quad9", 3);
+>>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
         assert_eq!(metrics.consecutive_failures, 0);
 
         // Simulate a failed check
@@ -957,8 +993,14 @@ mod tests {
     #[test]
     fn test_dns_servers_count() {
         assert_eq!(DNS_SERVERS.len(), 11);
+<<<<<<< HEAD
         // AdGuard is present
         assert!(DNS_SERVERS.contains(&("94.140.14.14", "AdGuard")));
         assert!(DNS_SERVERS.contains(&("94.140.15.15", "AdGuard Secondary")));
+=======
+        // AdGuard is present (3-tuple: addr, name, tier=5)
+        assert!(DNS_SERVERS.contains(&("94.140.14.14", "AdGuard", 5)));
+        assert!(DNS_SERVERS.contains(&("94.140.15.15", "AdGuard Secondary", 5)));
+>>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
     }
 }
