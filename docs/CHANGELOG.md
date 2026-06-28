@@ -7,6 +7,90 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.1.0] - 2026-06-27
+
+### 🎉 Added
+
+#### DNS Intelligence — Parallel Health Checks
+- **`services/dns_intelligence.rs`**
+  - Parallel DNS health checks via `std::thread::scope` (4 workers, no new dependencies)
+  - One full check cycle in ~3s instead of ~30s sequential
+  - Chunked worker pool: 11 DNS servers split across 4 workers
+
+#### DNS Intelligence — Tier Labels
+- **`DnsMetrics::tier_label`** field: e.g., "Tier 1 — Speed", "Tier 5 — Security"
+- Tier mapping: Speed (Cloudflare, Google), Security (Quad9, OpenDNS), Privacy (AdGuard, CleanBrowsing)
+- 11 DNS servers across 6 tiers (previously documented as "8 tiers")
+
+#### Linux DNS Failover Service
+- **`netboozt-headless` binary**: headless daemon, no GUI required
+- **`systemd` user service**: `~/.config/systemd/user/netboozt-dns.service`
+- Survives logout and lid-close; `linger=yes` for boot survival
+- Scripts: `install-systemd.sh`, `uninstall-systemd.sh`
+
+#### Windows DNS Failover Service
+- **`netboozt-service` binary**: Windows SCM integration
+- **`windows-service = "0.6"`** crate for Service Control Manager
+- Survives restarts, runs without logged-in user
+- Scripts: `install-windows-service.ps1`, `uninstall-windows-service.ps1`
+
+### 🔧 Changed
+
+#### Failover Timing
+- Check interval: 30s (was 15s in Python v2.x)
+- Failover trigger: 2 consecutive failures (~60s total, not 15s as previously documented)
+- Failover cooldown: 30s between switches
+
+#### Package
+- Version bump: 3.0.2 → 3.1.0
+- Rust edition 2021, MSRV 1.70
+- Binary size: ~8 MB (Tauri)
+
+---
+
+## [3.0.0] - 2026-06-20
+
+### 🎉 Added
+
+#### Tauri v3 Rewrite
+- **Platform**: Rust + SvelteKit + Tauri v2
+- **UI**: Glassmorphism design, ~8 MB installer
+- **Binary**: Single `.exe` / `.msi`, no Python runtime required
+
+#### Core DNS Intelligence
+- **`services/dns_intelligence.rs`**: Smart DNS picker with historical analysis
+- 11 upstream DNS servers (Cloudflare ×2, Google ×2, Quad9 ×2, OpenDNS ×2, AdGuard ×2, CleanBrowsing)
+- `DnsIntelligence::start()` / `DnsIntelligence::stop()` background loop
+- `signal-hook = "0.3"` for cross-platform SIGINT/SIGTERM handling
+
+#### Cross-Platform Support
+- Linux: systemd user service for headless DNS failover
+- Windows: Service Control Manager (SCM) integration
+- macOS: planned (not yet implemented)
+
+#### Headless Binaries
+- `netboozt-headless`: Linux/macOS foreground daemon
+- `netboozt-service`: Windows Service entry point
+
+### 🔧 Changed
+
+- Dropped Python runtime dependency (v2.x legacy)
+- Dropped `winotify`, `matplotlib`, `customtkinter` (GUI now in Svelte)
+- Simplified CLI: GUI handles all features; headless binaries for server/low-resource use
+
+### 📦 Dependencies
+
+#### New (Tauri v3)
+- `tauri = "2"` with `tray-icon` feature
+- `signal-hook = "0.3"`
+- `windows-service = "0.6"` (Windows only)
+- `tauri-plugin-fs`, `tauri-plugin-dialog`, `tauri-plugin-shell`, `tauri-plugin-notification`
+
+#### Removed
+- `customtkinter`, `matplotlib`, `winotify`, `psutil`, `tinydb`
+
+---
+
 ## [2.1.0] - 2025-11-10
 
 ### 🎉 Added

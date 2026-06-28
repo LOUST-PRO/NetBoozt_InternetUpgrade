@@ -6,7 +6,7 @@
 
 **Transforma tu Velocidad de Internet Sin Cambiar de ISP**
 
-[![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Producción-00d4aa.svg?logo=tauri)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
+[![Tauri](https://img.shields.io/badge/Tauri-v3.1.0_Producción-00d4aa.svg?logo=tauri)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.1.0)
 [![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
 [![Licencia](https://img.shields.io/badge/licencia-Apache_2.0-blue.svg)](LICENSE)
 [![Plataforma](https://img.shields.io/badge/plataforma-Windows-0078D6.svg?logo=windows)]()
@@ -30,7 +30,7 @@ Producción, moderna y ligera (~8MB) con **Rust + SvelteKit**. UI Glassmorphism.
 
 | Plataforma | Descarga | Tech |
 |------------|----------|------|
-| Windows x64 | [NetBoozt_3.0.0.msi](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0) | Rust + Tauri 1.5 |
+| Windows x64 | [NetBoozt_3.1.0.msi](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.1.0) | Rust + Tauri 2 |
 
 ### 🐍 Versión Python (v2.2.0) — Legacy
 
@@ -42,7 +42,7 @@ Implementación original (~25MB) con **Python + CustomTkinter**. Inicio lento, U
 
 ### ¿Cuál Elegir?
 
-| | Tauri v3.0 | Python v2.2 |
+| | Tauri v3.1 | Python v2.2 |
 |--|------------|-------------|
 | **Estado** | 🟢 Producción | ⚪ Legacy |
 | **Tamaño** | ~8 MB | ~25 MB |
@@ -65,24 +65,27 @@ Implementación original (~25MB) con **Python + CustomTkinter**. Inicio lento, U
 | Categoría | Características |
 |-----------|-----------------|
 | **🚀 TCP/IP** | HyStart++, PRR, ECN, TCP Fast Open, Pacing, RSS, RSC, Autotuning |
-| **🌐 DNS** | 8-Tier Auto-Failover, Health Checks reales, Detección ISP, Flush |
+| **🌐 DNS** | 6-Tier Auto-Failover (11 servers), Health Checks paralelos, Failover ~60s |
 | **📊 Monitoreo** | Métricas tiempo real, 4 gráficas, Zoom temporal, Speed test |
 | **🔔 Alertas** | 6 tipos, Umbrales config., Toast Windows, Auto-resolución |
 | **💾 Backups** | Snapshots 1-click, Restauración, Export JSON, Auto-cleanup |
 | **🔧 Diagnóstico** | 4-Fases, Windows Event Log, Detección throttling |
 
-### Jerarquía DNS (8 Tiers)
+### Jerarquía DNS (6 Tiers, 11 Servidores)
 
-| Tier | Proveedor | IP | Característica |
-|------|-----------|-----|----------------|
-| 1 | Cloudflare | 1.1.1.1 | Más rápido |
-| 2 | Google | 8.8.8.8 | Más confiable |
-| 3 | Quad9 | 9.9.9.9 | Seguridad |
-| 4 | OpenDNS | 208.67.222.222 | Estable |
-| 5 | AdGuard | 94.140.14.14 | Ad-blocking |
-| 6 | CleanBrowsing | 185.228.168.9 | Familia |
-| 7 | Router/DHCP | Auto | ISP fallback |
-| 8 | ISP Detected | Auto-detect | Proveedor |
+| Tier | Proveedor | IP | Categoría |
+|------|-----------|-----|-----------|
+| 1 | Cloudflare | 1.1.1.1 | Speed |
+| 1 | Cloudflare Secondary | 1.0.0.1 | Speed |
+| 2 | Google | 8.8.8.8 | Speed |
+| 2 | Google Secondary | 8.8.4.4 | Speed |
+| 3 | Quad9 | 9.9.9.9 | Security |
+| 3 | Quad9 Secondary | 149.112.112.112 | Security |
+| 4 | OpenDNS | 208.67.222.222 | Security |
+| 4 | OpenDNS Secondary | 208.67.220.220 | Security |
+| 5 | AdGuard | 94.140.14.14 | Privacy |
+| 5 | AdGuard Secondary | 94.140.15.15 | Privacy |
+| 6 | CleanBrowsing | 185.228.168.9 | Privacy |
 
 ### Diagnóstico 4-Fases
 
@@ -107,7 +110,7 @@ Fase 1: Adaptador → Fase 2: Router → Fase 3: ISP → Fase 4: DNS
 
 ## ⚡ Inicio Rápido
 
-### Desarrollo Tauri (v3.0)
+### Desarrollo Tauri (v3.1)
 
 ```powershell
 cd platforms/tauri

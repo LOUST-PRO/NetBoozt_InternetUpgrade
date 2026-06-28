@@ -6,7 +6,7 @@
 
 **Transform Your Internet Speed Without Changing Your ISP**
 
-[![Tauri](https://img.shields.io/badge/Tauri-v3.0.0_Production-00d4aa.svg?logo=tauri)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0)
+[![Tauri](https://img.shields.io/badge/Tauri-v3.1.0_Production-00d4aa.svg?logo=tauri)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.1.0)
 [![Python Legacy](https://img.shields.io/badge/Python-v2.2.0_Legacy-gray.svg?logo=python)](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v2.2.0)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6.svg?logo=windows)]()
@@ -24,13 +24,13 @@
 
 ## 📦 Download
 
-### 🦀 Tauri Version (v3.0.0-beta) — NEW!
+### 🦀 Tauri Version (v3.1.0) — Production
 
 Modern, lightweight (~8MB) with **Rust + SvelteKit**. Glassmorphism UI.
 
 | Platform | Download | Tech |
 |----------|----------|------|
-| Windows x64 | [NetBoozt_3.0.0-beta.msi](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.0.0-beta.1) | Rust + Tauri 1.5 |
+| Windows x64 | [NetBoozt_3.1.0.msi](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/tag/v3.1.0) | Rust + Tauri 2 |
 
 ### 🐍 Python Version (v2.2.0) — Stable
 
@@ -42,11 +42,11 @@ Battle-tested (~25MB) with **Python + CustomTkinter**. Includes full CLI.
 
 ### Which Version?
 
-| | Tauri v3.0 | Python v2.2 |
+| | Tauri v3.1 | Python v2.2 |
 |--|------------|-------------|
-| **Status** | 🟡 Beta | 🟢 Stable |
+| **Status** | 🟢 Stable | ⚪ Legacy |
 | **Size** | ~8 MB | ~25 MB |
-| **Best For** | Early adopters | Production |
+| **Best For** | Everyone | CLI only |
 | **CLI** | ❌ | ✅ |
 
 ---
@@ -71,12 +71,14 @@ Battle-tested (~25MB) with **Python + CustomTkinter**. Includes full CLI.
 | **TCP Pacing** | Smooth sending | -77% latency |
 | **RSS/RSC** | Multi-CPU processing | Less CPU overhead |
 
-### 🌐 DNS Auto-Failover (8 Tiers)
+### 🌐 DNS Auto-Failover (11 Servers, 6 Tiers)
 
-ISP DNS down? Automatic switch in 15s:
-- Tier 1-2: Cloudflare/Google (speed)
-- Tier 3-5: Quad9/OpenDNS/AdGuard (security)
-- Tier 6-8: CleanBrowsing/DHCP/ISP (fallback)
+ISP DNS down? Automatic switch in ~60s (30s interval × 2 failures):
+- **Tier 1–2 — Speed:** Cloudflare ×2, Google ×2
+- **Tier 3–4 — Security:** Quad9 ×2, OpenDNS ×2
+- **Tier 5–6 — Privacy:** AdGuard ×2, CleanBrowsing
+
+Parallel health checks via 4 workers (one full cycle in ~3s instead of ~30s sequential).
 
 ### 🔍 4-Phase Diagnostics
 

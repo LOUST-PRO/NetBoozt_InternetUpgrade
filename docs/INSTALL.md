@@ -1,6 +1,46 @@
-# 📦 Instalación y Configuración - NetBoozt v2.1
+# 📦 Instalación y Configuración - NetBoozt
 
-## 🚀 Instalación Rápida
+> **Two versions available.** Tauri v3 (recommended): ~8 MB, Rust + SvelteKit.
+> Python v2.2 (legacy): ~25 MB, requires Python runtime. Instructions below cover both.
+
+## 🦀 Tauri v3 (Recommended)
+
+### Linux — Headless DNS Failover Service
+
+```bash
+# Build headless binary
+cd platforms/tauri/src-tauri
+cargo build --release --bin netboozt-headless
+sudo cp target/release/netboozt-headless ~/.local/bin/NetBoozt
+
+# Install systemd user service
+cd platforms/tauri/scripts && ./install-systemd.sh
+
+# Verify
+systemctl --user status netboozt-dns.service
+journalctl --user -u netboozt-dns.service -f
+```
+
+### Windows — GUI Install
+
+Download the `.msi` from the [latest GitHub release](https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade/releases/latest) and run the installer.
+
+### Windows — DNS Failover Service
+
+```powershell
+# Build (requires Rust toolchain on Windows)
+cargo build --release --bin netboozt-service
+
+# Install as Administrator
+.\platforms\tauri\scripts\install-windows-service.ps1
+
+# Check status
+Get-Service netboozt-dns
+```
+
+---
+
+## 🐍 Python v2.2 (Legacy)
 
 ### Paso 1: Clonar Repositorio
 

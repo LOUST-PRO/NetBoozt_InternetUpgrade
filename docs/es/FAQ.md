@@ -1,4 +1,4 @@
-# Preguntas Frecuentes (FAQ) v2.1 - Español
+# Preguntas Frecuentes (FAQ) - NetBoozt
 
 ## General
 
@@ -37,7 +37,12 @@ No. NetBoozt solo modifica configuraciones del registro de Windows que están of
 ## Nuevas Características (v2.1)
 
 ### ¿Qué es el DNS Auto-Failover?
-Sistema automático que monitorea la salud de tu DNS cada 15 segundos y cambia automáticamente a un tier saludable si el actual falla. Incluye 7 tiers (Cloudflare, Google, Quad9, OpenDNS, Adguard, CloudflareFamily, DHCP).
+Sistema automático que monitorea 11 servidores DNS (Cloudflare ×2, Google ×2, Quad9 ×2, OpenDNS ×2, AdGuard ×2, CleanBrowsing) y cambia automáticamente al mejor disponible si el actual falla:
+- 🔍 Health checks cada 30 segundos (paralelo, ~3s por ciclo completo)
+- ⚡ Cambio tras 2 fallas consecutivas (~60s total)
+- ⏱️ Cooldown de 30s entre failovers
+- 🔔 Notificación en cada failover
+- 🎯 6 tiers: Speed (Cloudflare, Google), Security (Quad9, OpenDNS), Privacy (AdGuard, CleanBrowsing)
 
 **Uso:**
 1. Ve a pestaña "Failover DNS"

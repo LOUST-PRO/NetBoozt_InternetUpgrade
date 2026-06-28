@@ -1,12 +1,13 @@
 [package]
 name = "netboozt"
-version = "3.0.2"
+version = "3.1.0"
 description = "Network Optimization Tool for Windows"
 authors = ["LOUST <opensource@loust.pro>"]
 license = "Apache-2.0"
 repository = "https://github.com/LOUST-PRO/NetBoozt_InternetUpgrade"
 edition = "2021"
 rust-version = "1.70"
+default-run = "netboozt"
 
 # See more keys at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -46,6 +47,10 @@ windows-service = "0.6"
 [features]
 # This feature is used for production builds or when a dev server is not specified
 custom-protocol = ["tauri/custom-protocol"]
+
+[[bin]]
+name = "netboozt"
+path = "src/main.rs"
 
 [[bin]]
 name = "netboozt-headless"

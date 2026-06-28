@@ -1,16 +1,12 @@
-# ❓ Frequently Asked Questions (FAQ) - v2.1
+# ❓ Frequently Asked Questions (FAQ)
 
 ## General
 
 ### What is NetBoozt?
-NetBoozt is an advanced TCP/IP network optimization toolkit that brings Linux-level performance (similar to Google's BBR congestion control) to Windows. **v2.1 adds:**
-- ✅ Automatic DNS failover with health checks
-- ✅ Smart alert system with configurable thresholds
-- ✅ Configuration backup/restore system
-- ✅ Advanced monitoring with temporal graphs
-- ✅ Dark/Light theme support
+NetBoozt is an advanced TCP/IP network optimization toolkit that brings Linux-level performance (similar to Google's BBR congestion control) to Windows.
 
-It's 100% open-source and reversible.
+**Current version (Tauri v3):** ~8 MB, Rust + SvelteKit, modern UI.
+**Legacy version (Python v2.2):** ~25 MB, slower startup, CLI-only features.
 
 ### Is it safe?
 Yes! NetBoozt:
@@ -61,12 +57,12 @@ Yes! Benefits:
 ## New Features (v2.1)
 
 ### What is DNS Auto-Failover?
-Automatic switching between DNS tiers if current tier fails:
-- 🔍 Health checks every 15 seconds
-- ⚡ Switches to next healthy tier in <15s
-- ⏱️ 60-second cooldown to prevent flapping
-- 🔔 Windows notification on failover
-- 🎯 7 DNS tiers (Cloudflare → Google → Quad9 → ... → DHCP)
+Automatic switching between 11 DNS servers across 6 tiers if the current one fails:
+- 🔍 Health checks every 30 seconds (parallel, ~3s per full cycle)
+- ⚡ Switches to next healthy server after 2 consecutive failures (~60s total)
+- ⏱️ 30-second cooldown between failovers
+- 🔔 Notification on failover
+- 🎯 11 DNS servers: Cloudflare ×2, Google ×2, Quad9 ×2, OpenDNS ×2, AdGuard ×2, CleanBrowsing
 
 ### How do Alerts work?
 Configurable thresholds that trigger notifications:
