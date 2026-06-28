@@ -131,8 +131,8 @@ pub async fn install_update(path: String) -> Result<(), String> {
             .to_lowercase();
 
         if filename.ends_with(".appimage") {
-            let metadata = fs::metadata(&path)
-                .map_err(|e| format!("No se pudo leer el AppImage: {}", e))?;
+            let metadata =
+                fs::metadata(&path).map_err(|e| format!("No se pudo leer el AppImage: {}", e))?;
             let mut permissions = metadata.permissions();
             permissions.set_mode(permissions.mode() | 0o755);
             fs::set_permissions(&path, permissions)
@@ -164,7 +164,10 @@ pub async fn install_update(path: String) -> Result<(), String> {
             return Ok(());
         }
 
-        Err("No se encontró un abridor gráfico compatible para instalar la actualización en Linux".to_string())
+        Err(
+            "No se encontró un abridor gráfico compatible para instalar la actualización en Linux"
+                .to_string(),
+        )
     }
 }
 

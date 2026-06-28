@@ -159,10 +159,8 @@ fn get_adapter_metrics(
     #[cfg(not(windows))]
     {
         let read_stat = |name: &str| -> Result<u64, Box<dyn std::error::Error>> {
-            let value = fs::read_to_string(format!(
-                "/sys/class/net/{}/statistics/{}",
-                adapter, name
-            ))?;
+            let value =
+                fs::read_to_string(format!("/sys/class/net/{}/statistics/{}", adapter, name))?;
             Ok(value.trim().parse().unwrap_or(0))
         };
 
@@ -217,7 +215,9 @@ fn get_adapter_metrics(
 fn measure_latency() -> Result<f64, Box<dyn std::error::Error>> {
     #[cfg(not(windows))]
     {
-        let route_output = Command::new("ip").args(["route", "show", "default"]).output()?;
+        let route_output = Command::new("ip")
+            .args(["route", "show", "default"])
+            .output()?;
         let routes = String::from_utf8_lossy(&route_output.stdout);
         let gateway = routes
             .lines()
