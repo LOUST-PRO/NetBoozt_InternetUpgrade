@@ -127,8 +127,8 @@ fn linux_current_settings() -> TcpSettings {
     }
     .to_string();
 
-    let pacing = linux_sysctl_get("net.core.default_qdisc")
-        .unwrap_or_else(|| "unknown".to_string());
+    let pacing =
+        linux_sysctl_get("net.core.default_qdisc").unwrap_or_else(|| "unknown".to_string());
 
     let rack = match linux_sysctl_get("net.ipv4.tcp_recovery").as_deref() {
         Some("0") => "disabled",
@@ -367,10 +367,8 @@ pub fn get_current_settings_internal() -> Result<TcpSettings, String> {
         let ecn = extract_value_multi(&stdout, &["ECN Capability", "Funcionalidad de ECN"]);
 
         // Timestamps
-        let timestamps = extract_value_multi(
-            &stdout,
-            &["RFC 1323 Timestamps", "Marcas de hora RFC 1323"],
-        );
+        let timestamps =
+            extract_value_multi(&stdout, &["RFC 1323 Timestamps", "Marcas de hora RFC 1323"]);
 
         // Chimney (deprecado en Windows 10+)
         let chimney = extract_value_multi(&stdout, &["Chimney Offload State"]);
@@ -494,12 +492,7 @@ pub fn apply_profile_internal(profile: &str) -> Result<Vec<String>, String> {
                     "Window scaling enabled",
                     &mut applied,
                 )?;
-                linux_apply_sysctl(
-                    "net.ipv4.tcp_ecn",
-                    "1",
-                    "ECN enabled",
-                    &mut applied,
-                )?;
+                linux_apply_sysctl("net.ipv4.tcp_ecn", "1", "ECN enabled", &mut applied)?;
                 linux_apply_sysctl(
                     "net.ipv4.tcp_timestamps",
                     "1",
@@ -535,12 +528,7 @@ pub fn apply_profile_internal(profile: &str) -> Result<Vec<String>, String> {
                     "Window scaling enabled",
                     &mut applied,
                 )?;
-                linux_apply_sysctl(
-                    "net.ipv4.tcp_ecn",
-                    "1",
-                    "ECN enabled",
-                    &mut applied,
-                )?;
+                linux_apply_sysctl("net.ipv4.tcp_ecn", "1", "ECN enabled", &mut applied)?;
                 linux_apply_sysctl(
                     "net.ipv4.tcp_timestamps",
                     "1",
@@ -686,9 +674,7 @@ pub fn apply_profile_internal(profile: &str) -> Result<Vec<String>, String> {
                 // https://docs.microsoft.com/en-us/windows/win32/api/qos2/
                 // Valor 0xFFFFFFFF = sin throttling
                 if set_registry_dword("NetworkThrottlingIndex", 0xffffffff).is_ok() {
-                    applied.push(
-                        "Network Throttling disabled (10ms delay removed)".to_string(),
-                    );
+                    applied.push("Network Throttling disabled (10ms delay removed)".to_string());
                 }
 
                 // Nagle Algorithm: Desactivar para reducir latencia en gaming/realtime
@@ -702,9 +688,7 @@ pub fn apply_profile_internal(profile: &str) -> Result<Vec<String>, String> {
                 // Bit 1 (valor 2): Timestamps
                 // Valor 3 = ambos habilitados
                 if set_registry_dword("Tcp1323Opts", 3).is_ok() {
-                    applied.push(
-                        "TCP Window Scaling + Timestamps (Tcp1323Opts=3)".to_string(),
-                    );
+                    applied.push("TCP Window Scaling + Timestamps (Tcp1323Opts=3)".to_string());
                 }
             }
             _ => {
@@ -747,12 +731,7 @@ pub fn reset_to_defaults_internal() -> Result<Vec<String>, String> {
             "Window scaling reset",
             &mut reset,
         )?;
-        linux_apply_sysctl(
-            "net.ipv4.tcp_ecn",
-            "2",
-            "ECN reset",
-            &mut reset,
-        )?;
+        linux_apply_sysctl("net.ipv4.tcp_ecn", "2", "ECN reset", &mut reset)?;
         linux_apply_sysctl(
             "net.ipv4.tcp_timestamps",
             "1",
@@ -795,8 +774,7 @@ pub fn reset_to_defaults_internal() -> Result<Vec<String>, String> {
 
         if reset.is_empty() {
             return Err(
-                "No se restauraron valores Linux; faltan permisos o soporte del kernel"
-                    .to_string(),
+                "No se restauraron valores Linux; faltan permisos o soporte del kernel".to_string(),
             );
         }
 

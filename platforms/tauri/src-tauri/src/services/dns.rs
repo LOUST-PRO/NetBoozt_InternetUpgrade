@@ -33,18 +33,20 @@ fn run_command_capture(program: &str, args: &[&str]) -> Result<String, String> {
 
 #[cfg(not(windows))]
 fn is_virtual_linux_interface(device: &str, device_type: &str) -> bool {
-    matches!(device_type, "loopback" | "bridge" | "wireguard" | "wifi-p2p")
-        || matches!(
-            device,
-            name if name == "lo"
-                || name.starts_with("docker")
-                || name.starts_with("br-")
-                || name.starts_with("veth")
-                || name.starts_with("virbr")
-                || name.starts_with("wg")
-                || name.starts_with("tun")
-                || name.starts_with("tap")
-        )
+    matches!(
+        device_type,
+        "loopback" | "bridge" | "wireguard" | "wifi-p2p"
+    ) || matches!(
+        device,
+        name if name == "lo"
+            || name.starts_with("docker")
+            || name.starts_with("br-")
+            || name.starts_with("veth")
+            || name.starts_with("virbr")
+            || name.starts_with("wg")
+            || name.starts_with("tun")
+            || name.starts_with("tap")
+    )
 }
 
 #[cfg(not(windows))]
@@ -103,7 +105,10 @@ fn normalize_nm_bool(value: &str) -> bool {
 #[cfg(not(windows))]
 fn parse_dns_server_list(raw: &str) -> Vec<String> {
     let values = raw.replace('\n', " ");
-    let values = values.split_once(':').map(|(_, rest)| rest).unwrap_or(&values);
+    let values = values
+        .split_once(':')
+        .map(|(_, rest)| rest)
+        .unwrap_or(&values);
 
     values
         .split(|ch: char| ch == ',' || ch.is_whitespace())
@@ -121,7 +126,10 @@ pub fn get_current_dns_servers(adapter: &str) -> Result<Vec<String>, String> {
         }
     }
 
-    let raw = run_command_capture("nmcli", &["-t", "-g", "IP4.DNS,IP6.DNS", "device", "show", adapter])?;
+    let raw = run_command_capture(
+        "nmcli",
+        &["-t", "-g", "IP4.DNS,IP6.DNS", "device", "show", adapter],
+    )?;
     Ok(parse_dns_server_list(&raw))
 }
 
@@ -217,7 +225,13 @@ pub fn get_primary_adapter() -> Result<String, String> {
     {
         let raw = run_command_capture(
             "nmcli",
-            &["-t", "-f", "DEVICE,TYPE,STATE,CONNECTION", "device", "status"],
+            &[
+                "-t",
+                "-f",
+                "DEVICE,TYPE,STATE,CONNECTION",
+                "device",
+                "status",
+            ],
         )?;
 
         for line in raw.lines() {
@@ -240,7 +254,9 @@ pub fn get_primary_adapter() -> Result<String, String> {
             return Ok(device.to_string());
         }
 
-        return Err("No se encontró un adaptador Linux activo administrado por NetworkManager".to_string());
+        return Err(
+            "No se encontró un adaptador Linux activo administrado por NetworkManager".to_string(),
+        );
     }
 
     #[cfg(windows)]

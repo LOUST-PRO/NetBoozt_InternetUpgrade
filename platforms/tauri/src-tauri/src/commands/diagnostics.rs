@@ -87,7 +87,10 @@ fn linux_primary_adapter() -> Option<String> {
         }
     }
 
-    let devices = linux_capture("nmcli", &["-t", "-f", "DEVICE,TYPE,STATE", "device", "status"])?;
+    let devices = linux_capture(
+        "nmcli",
+        &["-t", "-f", "DEVICE,TYPE,STATE", "device", "status"],
+    )?;
 
     for line in devices.lines() {
         let mut fields = line.split(':');
@@ -204,7 +207,13 @@ fn linux_write_network_snapshot() -> Result<PathBuf, String> {
             "nmcli device status",
             linux_capture(
                 "nmcli",
-                &["-t", "-f", "DEVICE,TYPE,STATE,CONNECTION", "device", "status"],
+                &[
+                    "-t",
+                    "-f",
+                    "DEVICE,TYPE,STATE,CONNECTION",
+                    "device",
+                    "status",
+                ],
             ),
         ),
         ("resolvectl dns", linux_capture("resolvectl", &["dns"])),
@@ -644,7 +653,9 @@ async fn resolve_dns_with_server(domain: &str, dns_server: &str) -> bool {
         .output();
 
     #[cfg(not(windows))]
-    let output = linux_command("nslookup").args([domain, dns_server]).output();
+    let output = linux_command("nslookup")
+        .args([domain, dns_server])
+        .output();
 
     match output {
         Ok(o) if o.status.success() => {
@@ -923,10 +934,7 @@ pub async fn open_system_tool(tool: String) -> Result<String, String> {
                     linux_spawn("xdg-open", &[snapshot_path.as_str()])?;
                     Ok("Resumen de red abierto en tu visor predeterminado".to_string())
                 } else {
-                    Ok(format!(
-                        "Resumen de red guardado en {}",
-                        snapshot.display()
-                    ))
+                    Ok(format!("Resumen de red guardado en {}", snapshot.display()))
                 }
             }
             _ => Err(format!("Herramienta no permitida: {}", tool)),
@@ -1028,7 +1036,13 @@ pub async fn reset_network_stack() -> Result<String, String> {
                     actions.push(format!("configuración reaplicada sobre {}", adapter));
                 } else if let Some(connection) = linux_active_connection(&adapter) {
                     if linux_command("nmcli")
-                        .args(["connection", "up", connection.as_str(), "ifname", adapter.as_str()])
+                        .args([
+                            "connection",
+                            "up",
+                            connection.as_str(),
+                            "ifname",
+                            adapter.as_str(),
+                        ])
                         .output()
                         .map(|output| output.status.success())
                         .unwrap_or(false)
