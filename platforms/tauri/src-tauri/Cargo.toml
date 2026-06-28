@@ -29,6 +29,7 @@ tauri-plugin-fs = "2"
 tauri-plugin-dialog = "2"
 tauri-plugin-shell = "2"
 tauri-plugin-notification = "2"
+signal-hook = "0.3"
 
 # Windows-specific
 [target.'cfg(windows)'.dependencies]
@@ -43,3 +44,7 @@ windows = { version = "0.52", features = [
 [features]
 # This feature is used for production builds or when a dev server is not specified
 custom-protocol = ["tauri/custom-protocol"]
+
+[[bin]]
+name = "netboozt-headless"
+path = "src/bin/netboozt-headless.rs"

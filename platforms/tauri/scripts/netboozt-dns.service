@@ -1,0 +1,27 @@
+[Unit]
+Description=NetBoozt DNS Failover — headless DNS intelligence daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Runs the GUI binary in headless mode (DNS intelligence only, no window)
+ExecStart=/home/lou/.local/bin/NetBoozt --headless
+Restart=on-failure
+RestartSec=10
+# Graceful stop
+TimeoutStopSec=30
+
+# Security: run as user, no new privileges
+NoNewPrivileges=true
+
+# Environment
+Environment="RUST_LOG=info"
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=netboozt-dns
+
+[Install]
+WantedBy=default.target

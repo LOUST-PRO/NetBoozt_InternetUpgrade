@@ -295,11 +295,7 @@ impl DnsIntelligence {
                     s.spawn(move || {
                         chunk
                             .iter()
-<<<<<<< HEAD
-                            .map(|(addr, _)| {
-=======
                             .map(|(addr, _, _)| {
->>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
                                 let (success, ping_ms, resolve_ms) = Self::check_single_dns(addr);
                                 (addr.to_string(), success, ping_ms, resolve_ms)
                             })
@@ -888,11 +884,7 @@ mod tests {
 
         let results: Vec<String> = DNS_SERVERS
             .chunks(chunk_size)
-<<<<<<< HEAD
-            .flat_map(|chunk| chunk.iter().map(|(addr, _)| addr.to_string()))
-=======
             .flat_map(|chunk| chunk.iter().map(|(addr, _, _)| addr.to_string()))
->>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
             .collect();
 
         assert_eq!(results.len(), DNS_SERVERS.len());
@@ -904,11 +896,7 @@ mod tests {
         let metrics: Arc<RwLock<HashMap<String, DnsMetrics>>> = Arc::new(RwLock::new(
             DNS_SERVERS
                 .iter()
-<<<<<<< HEAD
-                .map(|(addr, name)| (addr.to_string(), DnsMetrics::new(addr, name)))
-=======
                 .map(|(addr, name, tier)| (addr.to_string(), DnsMetrics::new(addr, name, *tier)))
->>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
                 .collect(),
         ));
         let history: Arc<Mutex<Vec<HistoryEntry>>> = Arc::new(Mutex::new(Vec::new()));
@@ -926,11 +914,7 @@ mod tests {
         let metrics: Arc<RwLock<HashMap<String, DnsMetrics>>> = Arc::new(RwLock::new(
             DNS_SERVERS
                 .iter()
-<<<<<<< HEAD
-                .map(|(addr, name)| (addr.to_string(), DnsMetrics::new(addr, name)))
-=======
                 .map(|(addr, name, tier)| (addr.to_string(), DnsMetrics::new(addr, name, *tier)))
->>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
                 .collect(),
         ));
         let history: Arc<Mutex<Vec<HistoryEntry>>> = Arc::new(Mutex::new(Vec::new()));
@@ -967,11 +951,7 @@ mod tests {
     /// Verify that consecutive_failures increments on failure and resets on success.
     #[test]
     fn test_consecutive_failures_behavior() {
-<<<<<<< HEAD
-        let mut metrics = DnsMetrics::new("9.9.9.9", "Quad9");
-=======
         let mut metrics = DnsMetrics::new("9.9.9.9", "Quad9", 3);
->>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
         assert_eq!(metrics.consecutive_failures, 0);
 
         // Simulate a failed check
@@ -993,14 +973,8 @@ mod tests {
     #[test]
     fn test_dns_servers_count() {
         assert_eq!(DNS_SERVERS.len(), 11);
-<<<<<<< HEAD
-        // AdGuard is present
-        assert!(DNS_SERVERS.contains(&("94.140.14.14", "AdGuard")));
-        assert!(DNS_SERVERS.contains(&("94.140.15.15", "AdGuard Secondary")));
-=======
         // AdGuard is present (3-tuple: addr, name, tier=5)
         assert!(DNS_SERVERS.contains(&("94.140.14.14", "AdGuard", 5)));
         assert!(DNS_SERVERS.contains(&("94.140.15.15", "AdGuard Secondary", 5)));
->>>>>>> 1863ed6 (feat(dns): add tier labels and parallel Workers config to DNS metrics)
     }
 }
