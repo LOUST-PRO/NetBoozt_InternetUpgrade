@@ -23,22 +23,36 @@ fn main() {
 
     log::info!("netboozt-headless v{} starting", env!("CARGO_PKG_VERSION"));
 
-    // Shared flag for graceful shutdown — Arc allows both handlers to reference it
-    let running = Arc::new(AtomicBool::new(true));
-    let running_sigint = running.clone();
-    let running_sigterm = running.clone();
+    // Shared flag for graceful shutdown — Arc allows both handlers to reference it.
+    //
+    // SEMÁNTICA DE signal-hook (ver signal-hook-0.3.18 src/flag.rs:153):
+    //   `signal_hook::flag::register` hace `flag.store(true, SeqCst)` — el
+    //   flag pasa a TRUE cuando LLEGA la señal. El patrón canónico es por
+    //   eso un flag que empieza en FALSE y un bucle `while !flag.load()`.
+    //
+    // BUG CORREGIDO (2026-10-25): este binario usaba `running = true` con
+    //   `while running.load()`. La señal ponía el flag en TRUE, que es
+    //   EXACTAMENTE el valor que el bucle esperaba → el shutdown no podía
+    //   dispararse NUNCA. Medido: `kill -TERM <pid>` no hacía nada (el
+    //   handler corría — SigCgt bit 14 — pero no cambiaba la condición de
+    //   salida), y systemd tenía que SIGKILLear a los TimeoutStopSec=30.
+    //   El worker de DNS tampoco es el culpable: el hilo principal seguía
+    //   en hrtimer_nanosleep durante los 30 s completos.
+    let shutdown_requested = Arc::new(AtomicBool::new(false));
+    let shutdown_sigint = shutdown_requested.clone();
+    let shutdown_sigterm = shutdown_requested.clone();
 
     // Start DNS Intelligence service
     netboozt::start_dns_intelligence();
 
     // Register signal handlers for graceful shutdown using signal-hook
-    signal_hook::flag::register(signal_hook::consts::SIGINT, running_sigint)
+    signal_hook::flag::register(signal_hook::consts::SIGINT, shutdown_sigint)
         .expect("Failed to register SIGINT handler");
-    signal_hook::flag::register(signal_hook::consts::SIGTERM, running_sigterm)
+    signal_hook::flag::register(signal_hook::consts::SIGTERM, shutdown_sigterm)
         .expect("Failed to register SIGTERM handler");
 
     // Wait until signaled to stop
-    while running.load(Ordering::SeqCst) {
+    while !shutdown_requested.load(Ordering::SeqCst) {
         std::thread::sleep(Duration::from_secs(1));
     }
 
