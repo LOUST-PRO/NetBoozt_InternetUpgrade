@@ -46,7 +46,12 @@ jobs:
     - name: Check Rust formatting
       working-directory: platforms/tauri/src-tauri
       run: cargo fmt --check
-    
+
+    - name: Verify Cargo.lock is in sync with Cargo.toml
+      working-directory: platforms/tauri/src-tauri
+      shell: bash
+      run: cargo metadata --locked --format-version 1 > /dev/null
+
     - name: Rust linting
       working-directory: platforms/tauri/src-tauri
       run: cargo clippy -- -D warnings
