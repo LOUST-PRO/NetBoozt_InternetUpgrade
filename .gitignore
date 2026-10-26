@@ -75,7 +75,14 @@ temp/
 # Rust build artifacts
 platforms/tauri/src-tauri/target/
 target/
+# Cargo.lock se ignora por defecto (crates auxiliares del repo), EXCEPTO el de
+# la app Tauri: es una aplicación binaria y sin lock el resolver de cargo flota
+# al último 2.x de cada crate de la familia tauri (sus requisitos son caret
+# dentro del 2.x), que es justo lo que rompe el build — tauri 2.11 con
+# tauri-macros 2.7 no compila, porque el macro genera
+# Error::UnexpectedMenuKind y esa variante sólo existe en tauri 2.12.
 Cargo.lock
+!platforms/tauri/src-tauri/Cargo.lock
 *.rlib
 *.rmeta
 **/*.rs.bk
